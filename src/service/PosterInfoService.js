@@ -1,3 +1,5 @@
+import serverInfo from '../config/serverInfo'
+
 let service = {
   loadPosterTemplate ($http, id, callback) {
     let url = '/poster/posterinfo/' + id
@@ -6,7 +8,10 @@ let service = {
       let layouts = JSON.parse(data.layouts)
       data.layouts = layouts
       layouts.forEach(element => {
-        element.imgUrl = 'http://localhost:8080' + element.imgUrl
+        element.imgUrl = serverInfo.getViewUrl(element.imgUrl)
+        if (!element.zIndex)element.zIndex = 0
+        if (!element.rotate)element.rotate = 0
+        if (!element.fontFamily)element.fontFamily = ''
       })
       callback(data)
     })
@@ -17,10 +22,31 @@ let service = {
       let datas = response.data.data
       datas.forEach(element => {
         element.ratio = element.width / element.height
-        element.url = 'http://localhost:8080' + element.preview
+        element.url = serverInfo.getViewUrl(element.preview)
       })
       let pager = response.data.pager
       callback(datas, pager)
+    })
+  },
+  /** 保存模版数据 */
+  savePosterInfo ($http, data) {
+    let url = '/poster/posterinfo'
+    $http.post(url, data).then(response => {
+      if (response.data.status) {
+        this.$message.success({
+          message: response.data.msg
+        })
+      }
+    })
+  },
+  updatePosterInfo ($http, data) {
+    let url = '/poster/posterinfo'
+    $http.put(url, data).then(response => {
+      if (response.data.status) {
+        this.$message.success({
+          message: response.data.msg
+        })
+      }
     })
   }
 

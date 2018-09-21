@@ -9,7 +9,8 @@
       width: params.width + 'px',
       height: params.height + 'px',
       backgroundColor: params.backgroundColor,
-      opacity: params.opacity
+      opacity: params.opacity,
+      'transform':'rotate('+params.rotate+'deg)'
     }">
     </div>
 </template>
@@ -36,6 +37,7 @@ export default {
     opacity: 1,
     parent: '-1',
     backgroundColor: 'rgba(0, 0, 0, 1)',
+    rotate:0,//旋转角度
     setting: [
     ],
     record: {

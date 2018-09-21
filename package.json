@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.0",
+    "animateplus": "^2.1.1",
     "axios": "^0.18.0",
     "element-ui": "^2.3.4",
     "flex.css": "^1.1.7",

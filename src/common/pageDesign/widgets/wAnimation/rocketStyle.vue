@@ -34,12 +34,6 @@
           v-model="innerElement.radiusBottomRight" 
           :maxValue="Math.min(innerElement.record.width, innerElement.record.height)" 
           @finish="(value) => finish('radiusBottomRight', value)" />
-        <number-slider 
-          class="style-item" 
-          label="旋转角度" 
-          v-model="innerElement.rotate" 
-          :maxValue="360" 
-          @finish="(value) => finish('rotate', value)" />
         <icon-item-select class="style-item" label="图层层级" :data="layerIconList" @finish="layerAction"/>
         <icon-item-select label="组件对齐" :data="alignIconList" @finish="alignAction"/>
       </el-collapse-item>

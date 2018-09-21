@@ -1,10 +1,9 @@
 <template>
-  <el-dialog title="文字更改" :visible.sync="config.visiable" :fullscreen="config.fullscreen" :width="config.width"
+  <el-dialog :visible.sync="config.visiable" :fullscreen="config.fullscreen" :width="config.width"
     append-to-body>
-    
-      <h2>请输入文字</h2>
-       <el-input placeholder="请输入内容" v-model="inputText">
-      </el-input>
+      <h2>请输入文字</h2><br/>
+      <text-input-area type="textarea" placeholder="请输入内容" v-model="inputText">
+      </text-input-area>
     
     <span slot="footer" class="dialog-footer">
     <el-button @click="config.visiable = false">取 消</el-button>
@@ -38,9 +37,14 @@ export default {
   computed: {
     ...mapGetters(["dActiveElement", "dMoving"])
   },
+  mounted(){
+  },
   watch: {
     display(val, oldVal) {
       this.config.visiable = val;
+      if(val){
+        this.inputText = this.dActiveElement.text
+      }
     },
     "config.visiable": function(val, oldVal) {
       if (val != this.display) {

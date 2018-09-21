@@ -18,7 +18,8 @@
       <shape-list-wrap v-if="widgetClassifyList[1].show" :style="getStyle(1)" />
       <img-list-wrap v-if="widgetClassifyList[2].show" :style="getStyle(2)" />
       <img-material v-if="widgetClassifyList[3].show" :style="getStyle(3)"/>
-      <poster-template v-if="widgetClassifyList[4].show" :style="getStyle(4)"/> 
+      <effect-material v-if="widgetClassifyList[4].show" :style="getStyle(4)"/>
+      <poster-template v-if="widgetClassifyList[5].show" :style="getStyle(5)"/> 
     </div>
   </div>
 </template>
@@ -49,6 +50,11 @@ export default {
         },
         {
           name: '素材',
+          icon: 'icon-material',
+          show: false
+        },
+        {
+          name: '特效',
           icon: 'icon-material',
           show: false
         },

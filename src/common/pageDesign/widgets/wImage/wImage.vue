@@ -14,7 +14,9 @@
       borderTopLeftRadius: params.radiusTopLeft + 'px',
       borderTopRightRadius: params.radiusTopRight + 'px',
       borderBottomLeftRadius: params.radiusBottomLeft + 'px',
-      borderBottomRightRadius: params.radiusBottomRight + 'px'
+      borderBottomRightRadius: params.radiusBottomRight + 'px',
+      'transform':'rotate('+params.rotate+'deg)',
+      'z-index':params.zIndex
     }"/>
 </template>
 
@@ -44,6 +46,8 @@ export default {
     opacity: 1,
     parent: '-1',
     imgUrl: '',
+    zIndex: 0,
+    rotate: 0,//旋转角度
     setting: [
       {
         label: '图片',

@@ -15,7 +15,7 @@ import toast from 'COMMON/toast/toast.js'
 if (process.env.NODE_ENV === 'development') {
   require('./ElementUI')
 }
-
+require('./util/ElementUIPatch')
 Vue.config.productionTip = false
 
 Vue.use(Vuex)

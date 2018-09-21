@@ -22,7 +22,10 @@
       fontStyle: params.fontStyle,
       textDecoration: params.textDecoration,
       opacity: params.opacity,
-      backgroundColor: params.backgroundColor
+      backgroundColor: params.backgroundColor,
+      'transform': 'rotate('+params.rotate+'deg)',
+      'z-index': params.zIndex,
+      'font-family': params.fontFamily
     }">
   </div>
 </template>
@@ -58,6 +61,9 @@ export default {
     opacity: 1,
     backgroundColor: '',
     parent: '-1',
+    zIndex: 0,
+    rotate: 0,//旋转角度
+    fontFamily:'',
     setting: [
       {
         label: '文本内容',

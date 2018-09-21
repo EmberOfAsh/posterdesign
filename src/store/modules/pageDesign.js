@@ -1,6 +1,12 @@
+import serverInfo from '../../config/serverInfo'
 const generate = require('nanoid/generate')
 
 const state = {
+  pageSizeDialog: {
+    display: false
+  },
+  posterTemplateInfo: {
+  },
   viewImageAlbum: {
     display: false
   },
@@ -149,10 +155,36 @@ const getters = {
   },
   viewImageAlbum (state) {
     return state.viewImageAlbum
+  },
+  posterTemplateInfo (state) {
+    return state.posterTemplateInfo
+  },
+  pageSizeDialog (state) {
+    return state.pageSizeDialog
   }
 }
 
 const actions = {
+  /** 更新模版数据 **/
+  updatePosterTemplateInfo (store) {
+    store.state.posterTemplateInfo.width = store.state.dPage.width
+    store.state.posterTemplateInfo.height = store.state.dPage.height
+    let widgets = JSON.parse(JSON.stringify(store.state.dWidgets))
+    // 替换图片相对路径
+    widgets.forEach(ele => {
+      if (ele.type === 'w-image') {
+        console.debug('replace: ', serverInfo.uploadServer)
+        ele.imgUrl = ele.imgUrl.split(serverInfo.uploadServer).join('')
+        console.log(ele.imgUrl)
+      }
+    })
+    store.state.posterTemplateInfo.page = JSON.stringify(store.state.dPage)
+    store.state.posterTemplateInfo.layouts = JSON.stringify(widgets)
+  },
+  /** 备份海报模版数据信息 **/
+  backupPosterTemplateInfo (store, data) {
+    store.state.posterTemplateInfo = data
+  },
   /** 加载海报模版 */
   loadPosterTemplate (store, data) {
     store.dispatch('clearWidget')
@@ -164,10 +196,15 @@ const actions = {
       store.dispatch('addWidget', element)
     })
     store.dispatch('unselectWidgets')
+    store.dispatch('updateBestZoom')
+    store.dispatch('backupPosterTemplateInfo', data)
   },
   /** 取消选中组件 */
   unselectWidgets (store) {
     store.state.dActiveElement = store.state.dPage
+  },
+  updatePageSizeDialog (store, data) {
+    store.state.pageSizeDialog.display = data.display
   },
   updateViewImageAlbum (store, data) {
     store.state.viewImageAlbum.display = data.display
@@ -274,6 +311,13 @@ const actions = {
     }
     store.state.dActiveElement = element
   },
+  updateBestZoom (store) {
+    let widthZoom = (store.state.dScreen.width - 142) * 100 / store.state.dPage.width
+    let heightZoom = (store.state.dScreen.height - 122) * 100 / store.state.dPage.height
+
+    let bestZoom = Math.min(widthZoom, heightZoom)
+    store.state.dZoom = bestZoom
+  },
   updateZoom (store, zoom) {
     store.state.dZoom = zoom
   },
@@ -290,6 +334,27 @@ const actions = {
     let page = store.state.dPage
     page['width'] = width
     page['height'] = height
+    store.dispatch('pushHistory')
+  },
+  /** 转换设计尺寸 */
+  convertPageSize (store, data) {
+    // 根据缩放比 来自动转换布局数据
+    let page = store.state.dPage
+    let oldWidth = page.width
+    let oldHeight = page.height
+
+    let stepX = data.width / oldWidth
+    let stepY = data.height / oldHeight
+    console.log('转化比率: ', stepX, stepY)
+    let widgets = store.state.dWidgets
+    widgets.forEach(widget => {
+      widget.width = widget.width * stepX
+      widget.height = widget.height * stepY
+      widget.top = widget.top * stepY
+      widget.left = widget.left * stepX
+    })
+    store.dispatch('updatePageSize', data)
+    store.dispatch('pushHistory')
   },
   updatePageData (store, {key, value, pushHistory}) {
     let page = store.state.dPage
@@ -340,7 +405,7 @@ const actions = {
     }
   },
   addWidget (store, setting) {
-    setting.uuid = generate('1234567890abcdef', 12)
+    if (!setting.uuid || setting.uuid === -1) setting.uuid = generate('1234567890abcdef', 12)
     store.state.dWidgets.push(setting)
     let len = store.state.dWidgets.length
     store.state.dActiveElement = store.state.dWidgets[len - 1]
@@ -656,6 +721,19 @@ const actions = {
 
     store.dispatch('reChangeCanvas')
   },
+  /** 旋转设置 */
+  dRotate (store, {x, y}) {
+    store.state.dResizeing = true
+    let target = store.state.dActiveElement
+    let mouseXY = store.state.dMouseXY
+    let dx = Math.abs(x - mouseXY.x)
+    let dy = Math.abs(y - mouseXY.y)
+    let z = Math.sqrt(dx * dx + dy * dy)
+    let jiaodu = Math.round((Math.asin(dy / z) / Math.PI * 180))
+    target.rotate = jiaodu
+    console.debug('旋转角度', jiaodu)
+    store.dispatch('reChangeCanvas')
+  },
   // 组件调整结束
   stopDResize (store) {
     if (store.state.dResizeing) {
@@ -781,8 +859,11 @@ const actions = {
           })
           left = Math.min(left, widget.left)
           top = Math.min(top, widget.top)
-          right = Math.max(right, widget.record.width + widget.left)
-          bottom = Math.max(bottom, widget.record.height + widget.top)
+          // record 数据有错误,更改为直接使用组件宽度/高度
+          // right = Math.max(right, widget.record.width + widget.left)
+          right = Math.max(right, widget.width + widget.left)
+          // bottom = Math.max(bottom, widget.record.height + widget.top)
+          bottom = Math.max(bottom, widget.height + widget.top)
         }
         sortWidgets.sort((a, b) => a.index > b.index)
         for (let i = 0; i < sortWidgets.length; ++i) {
@@ -790,10 +871,16 @@ const actions = {
           widgets.splice(index, 1)
           widgets.push(sortWidgets[i].widget)
         }
-        group.left = left
-        group.top = top
-        group.width = right - left
-        group.height = bottom - top
+        let gw = right - left
+        let gh = bottom - top
+        let ws = gw * 0.08
+        let hs = gh * 0.1
+        group.left = left - ws
+        group.top = top - hs
+        group.width = gw + 2 * ws
+        group.height = gh + 2 * hs
+
+        console.debug('group info, left:', group.left, group.top, group.width, group.height)
 
         store.state.dActiveElement = group
         store.state.dSelectWidgets = []
@@ -825,6 +912,14 @@ const actions = {
     group.height = bottom - top
     group.left = left
     group.top = top
+  },
+  /** 对图层移动排序 */
+  moveLayer (store, {from, to}) {
+    let widgets = store.state.dWidgets
+    let nf = widgets.length - from - 1
+    let nt = widgets.length - to - 1
+    let t = widgets.splice(nf, 1)
+    widgets.splice(nt, 0, t[0])
   },
   updateLayerIndex (store, {uuid, value, isGroup}) {
     let widgets = store.state.dWidgets

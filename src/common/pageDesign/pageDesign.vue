@@ -28,7 +28,6 @@
           :is="layer.type"
           class="layer"
           :class="{
-            'swing animated delay-4s':true,
             'layer-active': getIsActive(layer.uuid),
             'layer-hover': layer.uuid === dHoverUuid || dActiveElement.parent === layer.uuid
           }"

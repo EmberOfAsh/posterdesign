@@ -11,7 +11,8 @@
       border: params.size + 'px solid ' + params.color,
       backgroundColor: params.backgroundColor,
       borderRadius: '50%',
-      opacity: params.opacity
+      opacity: params.opacity,
+      'transform':'rotate('+params.rotate+'deg)'
     }">
     </div>
 </template>
@@ -40,6 +41,7 @@ export default {
     color: 'rgba(0, 0, 0, 1)',
     backgroundColor: '',
     size: 5,
+    rotate:0,//旋转角度
     setting: [
     ],
     record: {

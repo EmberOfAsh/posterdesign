@@ -69,9 +69,6 @@ import {
   Notification
 } from 'element-ui'
 
-import axiosInit from './util/http'
-import vueCommon from './util/vue-common'
-
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Autocomplete)
@@ -144,8 +141,5 @@ Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 Vue.prototype.$notify = Notification
 Vue.prototype.$message = Message
-Vue.prototype.$http = axiosInit()
-
-vueCommon.init(Vue)
 
 export default Vue

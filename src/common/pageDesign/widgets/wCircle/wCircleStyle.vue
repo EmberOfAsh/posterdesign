@@ -10,6 +10,12 @@
         </div>
       </el-collapse-item>
       <el-collapse-item title="样式设置" name="2">
+        <number-slider 
+          class="style-item" 
+          label="旋转角度" 
+          v-model="innerElement.rotate" 
+          :maxValue="360" 
+          @finish="(value) => finish('rotate', value)" />
         <number-input class="style-item" label="边框大小" v-model="innerElement.size" @finish="(value) => finish('size', value)" />
         <color-select class="style-item" label="边框颜色" v-model="innerElement.color" @finish="(value) => finish('color', value)" />
         <color-select class="style-item" label="背景颜色" v-model="innerElement.backgroundColor" @finish="(value) => finish('backgroundColor', value)" />

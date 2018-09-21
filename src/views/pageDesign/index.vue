@@ -10,8 +10,15 @@
         </div>
         <div class="top-icon-wrap">
           <el-button-group>
+            <el-button @click="savePoster">保存</el-button>
+            <el-button @click="savePosterAs">另存为</el-button>
+          </el-button-group>
+          <el-button-group>
+            <el-button icon="el-icon-edit" @click="updatePageSizeDialog({display:true})">更改尺寸</el-button>
+            <!--
             <el-button @click="changeHV('h')">横屏</el-button>
             <el-button @click="changeHV('v')">竖屏</el-button>
+            -->
           </el-button-group>
           <div class="top-icon" @click="newPoster">
             <i class="iconfont icon-empty"></i>
@@ -161,6 +168,7 @@
     <view-image-dialog :display.sync="viewImageDialog.display"></view-image-dialog>
     <edit-text-dialog :display.sync="editTextDialog.display"></edit-text-dialog>
     <view-image-album :display.sync="viewImageAlbum.display"></view-image-album>
+    <page-size-dialog :display.sync="pageSizeDialog.display"></page-size-dialog>
   </div>
 </template>
 
@@ -176,7 +184,6 @@ import {
   mapActions
 } from 'vuex';
 import 'animate.css';
-
 export default {
   name: 'page-design-index',
   data () {
@@ -282,7 +289,9 @@ export default {
       'dZoom' ,
       'viewImageDialog',
       'editTextDialog',
-      'viewImageAlbum'
+      'viewImageAlbum',
+      'posterTemplateInfo',
+      'pageSizeDialog'
     ]),
     undoable() {
       return !(this.dHistoryParams.index === -1 || (this.dHistoryParams === 0 && this.dHistoryParams.length === 10))
@@ -338,13 +347,55 @@ export default {
       'updateZoom',
       'updateScreen',
       'updatePageSize',
-      'clearWidget','loadPosterTemplate'
+      'clearWidget',
+      'loadPosterTemplate',
+      'updatePosterTemplateInfo',
+      'updatePageSizeDialog'
     ]),
     loadTemplate(){
       let tid = this.$route.params.tid;
       if(tid){
         console.log('加载模版id:',tid);
         PosterInfoService.loadPosterTemplate(this.$http,tid,this.loadPosterTemplate)
+      }else{
+        let pt ={"from":"818ps.com","height":3366,"layouts":[{"name":"图片","width":1893,"height":3366,"top":1,"left":0,"zindex":1,"id":8,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/a1/a1158a9d2790980bb3fdae7b99153f3f.png!l800_i_w?auth_key=1537027200-0-0-b95721180c3caf97be280b69d6ad0fd4","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":230,"height":230,"top":1362,"left":587,"zindex":2,"id":7,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/bb/bb99a2ca38af29202139851db28df517.png!l800_i_w?auth_key=1537027200-0-0-151a03e3a6324802d880d2882b4dc227","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":231,"height":230,"top":1362,"left":879,"zindex":3,"id":6,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/12/12a1dfe005ae5e1e95ad76b0f3c8283c.png!l800_i_w?auth_key=1537027200-0-0-51bea9114d0a0a5fce580d5a4d4b0a87","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":483,"height":176,"top":1390,"left":616,"zindex":4,"id":5,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/1c/1c5a28ffb91af47ef1914862106631f7.png!l800_i_w?auth_key=1537027200-0-0-fd5644c52b4d73e099f279d51cdb75ce","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":61,"height":358,"top":1688,"left":1046,"zindex":5,"id":4,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/5a/5a802b50e6d5b8bec33f0b1af6409f2f.png!l800_i_w?auth_key=1537027200-0-0-58f7b1f760756f61b5c2d450cc5f7c2f","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":80,"height":69,"top":1497,"left":1281,"zindex":6,"id":3,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/72/72a81083e6e5e2a031378b3bc3544ae9.png!l800_i_w?auth_key=1537027200-0-0-fb32837fc7f3f61ba394b2bef5fdcee8","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":46,"height":41,"top":1555,"left":1281,"zindex":7,"id":2,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/ae/aeba1c32fea5b55b9b0d25b6a401fb24.png!l800_i_w?auth_key=1537027200-0-0-a665ef69d42e7fad92c4035775926343","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":91,"height":76,"top":1881,"left":928,"zindex":8,"id":1,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/a7/a7ffe052a7bb514ad5d0bdaee2a98e80.png!l800_i_w?auth_key=1537027200-0-0-cbbd0b294c06577bff84ea6e41d39329","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"图片","width":47,"height":40,"top":1854,"left":972,"zindex":9,"id":0,"type":"w-image","imgUrl":"https://img.tuguaishou.com/ips_asset/15/20/33/42/21/44/4446a87dff6e3270cb7ea38f1c228144.png!l800_i_w?auth_key=1537027200-0-0-a2d53f9a97528cfa53337632a03fd5ae","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"all","height":1334},"radiusTopLeft":0,"radiusTopRight":0,"radiusBottomLeft":0,"radiusBottomRight":0,"opacity":1,"parent":"-1","setting":[{"parentKey":"imgUrl","label":"图片","value":true}]},{"name":"广告标语","width":1216,"height":0,"top":59,"left":310,"zindex":10,"parent":"-1","id":10,"type":"w-text","text":"/七/夕/传/统/佳/节/","fontSize":44,"fontWeight":"normal","fontFamily":"syht","lineHeight":1.3,"textColor":"#000000ff","backgroundColor":"","fontStyle":"","letterSpacing":38.738738738739,"textAlign":"center","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"horizontal","height":1334},"setting":[{"parentKey":"text","label":"文本内容","value":true},{"parentKey":"textColor","label":"文本颜色","value":false}]},{"name":"节日时间","width":470,"height":0,"top":1615,"left":566,"zindex":11,"parent":"-1","id":11,"type":"w-text","text":"七月初七七夕节","fontSize":52,"fontWeight":"bold","fontFamily":"syht","lineHeight":1.25,"textColor":"#ffffffff","backgroundColor":"","fontStyle":"","letterSpacing":0,"textAlign":"center","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"horizontal","height":1334},"setting":[{"parentKey":"text","label":"文本内容","value":true},{"parentKey":"textColor","label":"文本颜色","value":false}]},{"name":"副标题","width":89,"height":0,"top":1476,"left":1183,"zindex":12,"parent":"-1","id":12,"type":"w-text","text":"有你在","fontSize":57,"fontWeight":"bold","fontFamily":"syht","lineHeight":1.23,"textColor":"#ffffffff","backgroundColor":"","fontStyle":"","letterSpacing":0,"textAlign":"center","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"horizontal","height":1334},"setting":[{"parentKey":"text","label":"文本内容","value":true},{"parentKey":"textColor","label":"文本颜色","value":false}]},{"name":"副标题","width":89,"height":0,"top":1531,"left":1109,"zindex":13,"parent":"-1","id":13,"type":"w-text","text":"每天都是情人节","fontSize":57,"fontWeight":"bold","fontFamily":"syht","lineHeight":1.23,"textColor":"#ffffffff","backgroundColor":"","fontStyle":"","letterSpacing":0,"textAlign":"center","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"horizontal","height":1334},"setting":[{"parentKey":"text","label":"文本内容","value":true},{"parentKey":"textColor","label":"文本颜色","value":false}]},{"name":"副标题","width":454,"height":0,"top":1682,"left":558,"zindex":14,"parent":"-1","id":14,"type":"w-text","text":"DOUBLE SEVENTH","fontSize":49,"fontWeight":"normal","fontFamily":"syht","lineHeight":1.27,"textColor":"#ffffffff","backgroundColor":"","fontStyle":"","letterSpacing":0,"textAlign":"center","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"horizontal","height":1334},"setting":[{"parentKey":"text","label":"文本内容","value":true},{"parentKey":"textColor","label":"文本颜色","value":false}]},{"name":"副标题","width":391,"height":0,"top":1758,"left":590,"zindex":15,"parent":"-1","id":15,"type":"w-text","text":"遇见你·遇见最美的你","fontSize":37,"fontWeight":"normal","fontFamily":"syht","lineHeight":1.35,"textColor":"#ffffffff","backgroundColor":"","fontStyle":"","letterSpacing":0,"textAlign":"center","record":{"minHeight":10,"width":750,"minWidth":10,"dir":"horizontal","height":1334},"setting":[{"parentKey":"text","label":"文本内容","value":true},{"parentKey":"textColor","label":"文本颜色","value":false}]}],"pid":104688,"title":"中秋国庆节日插画海报","width":1893}
+        pt = {
+    "from": "818ps.com",
+    "height": 1080,
+    "layouts": [
+        {
+            "name": "雪花特效",
+            "type": "w-snow",
+            "uuid": "ec119833738f",
+            "width": 1920,
+            "height": 1080,
+            "left": 0,
+            "top": 0,
+            "opacity": 1,
+            "parent": "-1",
+            "color": "",
+            "backgroundColor": "rgba(0, 0, 0, 0.1)",
+            "size": 5,
+            "rotate": 0,
+            "setting": [],
+            "record": {
+                "width": 0,
+                "height": 0,
+                "minWidth": 1,
+                "minHeight": 1,
+                "dir": "all"
+            },
+            "imgUrl": "http://192.168.1.8:3000/images/c3b/934/c3b934388a49c8f5df4271da62d91486.png",
+            "zIndex": 0
+        }
+    ],
+    "pid": 104688,
+    "title": "中秋国庆节日插画海报",
+    "width": 1920,
+    "page": "{\"name\":\"背景页面\",\"type\":\"page\",\"uuid\":\"-1\",\"left\":0,\"top\":0,\"width\":1920,\"height\":1080,\"backgroundColor\":\"#fff\",\"backgroundImage\":\"\",\"opacity\":1,\"tag\":0.01,\"setting\":[{\"label\":\"背景颜色\",\"parentKey\":\"backgroundColor\",\"value\":false}],\"record\":{}}"
+} 
+        
+        this.loadPosterTemplate(pt)
       }
     },
     newPoster () {
@@ -631,6 +682,18 @@ export default {
 
       image.src = document.getElementById('cover').src
       this.publishing = false
+    },
+    /**保存海报 **/
+    savePoster() {
+      this.updatePosterTemplateInfo()
+      console.debug(this.posterTemplateInfo)
+      PosterInfoService.updatePosterInfo(this.$http, this.posterTemplateInfo)
+    },
+    /**海报另存为 **/
+    savePosterAs() {
+      this.updatePosterTemplateInfo()
+      console.debug(this.posterTemplateInfo)
+      PosterInfoService.savePosterInfo(this.$http, this.posterTemplateInfo)
     }
   }
 }

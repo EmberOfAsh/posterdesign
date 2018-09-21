@@ -272,11 +272,11 @@ export default {
     },
     handleSizeChange(val) {
       this.tpager.size = val;
-      this.loadTpTypeData();
+      this.reloadTpTypeData();
     },
     handleCurrentChange(val) {
       this.tpager.current = val;
-      this.loadTpTypeData();
+      this.reloadTpTypeData();
     },
     //转化为普通数据
     toNormalData(data) {

@@ -10,6 +10,17 @@
         </div>
       </el-collapse-item>
       <el-collapse-item title="样式设置" name="2">
+        <number-slider 
+          class="style-item" 
+          label="旋转角度" 
+          v-model="innerElement.rotate" 
+          :maxValue="360" 
+          @finish="(value) => finish('rotate', value)" />
+        <font-family-select
+          class="style-item"
+          label="字体设置" 
+          v-model="innerElement.fontFamily"
+          @finish="(value) => finish('fontFamily', value)"/>
         <div class="line-layout style-item">
           <value-select 
             label="大小" 

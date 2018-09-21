@@ -5,11 +5,17 @@
         <div class="position-size">
           <number-input label="X" v-model="innerElement.left" @finish="(value) => finish('left', value)" />
           <number-input label="Y" v-model="innerElement.top" @finish="(value) => finish('top', value)" />
-          <number-input label="宽" v-model="defaultValue" :editable="false" />
-          <number-input label="高" v-model="defaultValue" :editable="false" />
+          <number-input label="宽" v-model="innerElement.width" @finish="(value) => finish('width', value)"  />
+          <number-input label="高" v-model="innerElement.height" @finish="(value) => finish('height', value)"  />
         </div>
       </el-collapse-item>
       <el-collapse-item title="样式设置" name="2">
+        <number-slider 
+          class="style-item" 
+          label="旋转角度" 
+          v-model="innerElement.rotate" 
+          :maxValue="360" 
+          @finish="(value) => finish('rotate', value)" />
         <div class="ungroup style-item" @click="ungroup(innerElement.uuid)">取消组合</div>
         <icon-item-select class="style-item" label="图层层级" :data="layerIconList" @finish="layerAction"/>
         <icon-item-select label="组件对齐" :data="alignIconList" @finish="alignAction"/>

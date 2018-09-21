@@ -1,7 +1,9 @@
 <template>
-  <div 
-    id="w-group"
+  <img 
+    id="animation-rocket"
     ref="widget"
+    @dblclick="(e) => dblclickText(e)"
+    :src="params.imgUrl" 
     :style="{
       position: 'absolute',
       left: (params.left - parent.left) + 'px',
@@ -9,17 +11,16 @@
       width: params.width + 'px',
       height: params.height + 'px',
       opacity: params.opacity,
-      'z-index': params.zIndex,
-      'transform':'rotate('+params.rotate+'deg)',
-      
-    }">
-    <slot></slot>
-  </div>
+      borderTopLeftRadius: params.radiusTopLeft + 'px',
+      borderTopRightRadius: params.radiusTopRight + 'px',
+      borderBottomLeftRadius: params.radiusBottomLeft + 'px',
+      borderBottomRightRadius: params.radiusBottomRight + 'px'
+    }"/>
 </template>
 
 <script>
-// 组合组件
-const NAME = 'w-group'
+// 图片组件
+const NAME = 'a-rocket'
 
 import {
   mapGetters,
@@ -29,26 +30,33 @@ import {
 export default {
   name: NAME,
   setting: {
-    name: '组合',
+    name: '动画元素',
     type: NAME,
     uuid: -1,
-    width: 0,
-    height: 0,
+    width: 300,
+    height: 300,
     left: 0,
     top: 0,
+    radiusTopLeft: 0,
+    radiusTopRight: 0,
+    radiusBottomLeft: 0,
+    radiusBottomRight: 0,
     opacity: 1,
     parent: '-1',
-    isContainer: true,
-    zIndex: 0,
-    rotate: 0,
+    imgUrl: '',
     setting: [
+      {
+        label: '图片',
+        parentKey: 'imgUrl',
+        value: true
+      }
     ],
     record: {
       width: 0,
       height: 0,
-      minWidth: 0,
-      minHeight: 0,
-      dir: 'none'
+      minWidth: 10,
+      minHeight: 10,
+      dir: 'all'
     }
   },
   props: ['params', 'parent'],
@@ -69,6 +77,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'updateViewImageDialog'
     ]),
     updateRecord () {
       if (this.dActiveElement.uuid === this.params.uuid) {
@@ -76,6 +85,10 @@ export default {
         record.width = this.$refs.widget.offsetWidth
         record.height = this.$refs.widget.offsetHeight
       }
+    },
+    dblclickText() {
+      console.debug('双击图片 更改');
+      this.updateViewImageDialog({display:true})
     }
   }
 }
@@ -83,7 +96,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import '~STYLUS/page-design.styl'
-#w-group
+#w-image
   outline: none
   cursor: pointer
 </style>

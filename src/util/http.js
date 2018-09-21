@@ -1,8 +1,6 @@
 import axios from 'axios'
 import serverInfo from '../config/serverInfo'
-import {
-  Message
-} from 'element-ui'
+
 import NProgress from 'nprogress'
 export default () => {
   axios.defaults.baseURL = serverInfo.mainServer // 配置axios请求的地址
@@ -28,14 +26,14 @@ export default () => {
       window.location.href = serverInfo.mainServer
       return false
     } else if (res.data.code !== 200) {
-      Message.error({
+      this.$message.error({
         message: res.data.msg
       })
     } else {
     }
     return Promise.resolve(res)
   }, error => {
-    Message.error({
+    this.$message.error({
       message: error
     })
     return Promise.reject(error)

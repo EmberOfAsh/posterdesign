@@ -24,9 +24,9 @@
 
 <script>
 // 图片列表
-const NAME = "img-material";
+const NAME = "effect-material";
 
-import wImage from "COMMON/pageDesign/widgets/wImage/wImage";
+import wSnow from "COMMON/pageDesign/widgets/wAnimation/wSnow"
 import serverInfo from "../../../config/serverInfo.js";
 
 import { mapGetters, mapActions } from "vuex";
@@ -65,9 +65,7 @@ export default {
       };
     },
     selectImg(item) {
-      let setting = JSON.parse(JSON.stringify(wImage.setting));
-      setting.width = 100;
-      setting.height = parseInt(100 / item.value.ratio);
+      let setting = JSON.parse(JSON.stringify(wSnow.setting));
       setting.imgUrl = item.value.rawUrl;
       this.addWidget(setting);
     },

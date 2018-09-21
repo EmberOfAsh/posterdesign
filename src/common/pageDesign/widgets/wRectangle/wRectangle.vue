@@ -14,7 +14,9 @@
       borderTopRightRadius: params.radiusTopRight + 'px',
       borderBottomLeftRadius: params.radiusBottomLeft + 'px',
       borderBottomRightRadius: params.radiusBottomRight + 'px',
-      opacity: params.opacity
+      opacity: params.opacity,
+      'transform':'rotate('+params.rotate+'deg)',
+      'z-index': params.zIndex
     }">
   </div>
 </template>
@@ -47,6 +49,7 @@ export default {
     color: 'rgba(0, 0, 0, 1)',
     backgroundColor: '',
     size: 5,
+    rotate:0,//旋转角度
     setting: [
     ],
     record: {

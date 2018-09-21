@@ -6,10 +6,12 @@
         <el-radio v-model="sourceType" label="url">图片网址</el-radio>
     </div>
     <div v-show="sourceType=='url'">
-      <h2>请输入图片网址</h2>
+      <br/>
+      <h2>请输入图片网址</h2> <br/>
        <el-input placeholder="请输入内容" v-model="imgUrl">
         <template slot="prepend">Http://</template>
       </el-input>
+       <br/>
     </div>
     <div v-show="sourceType=='upload'">
      <el-upload
