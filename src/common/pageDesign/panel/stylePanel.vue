@@ -3,6 +3,7 @@
     <div class="style-tab">
       <span class="tab" :class="{'active-tab' : activeTab === 0}" @click="activeTab = 0">设置</span>
       <span class="tab" :class="{'active-tab' : activeTab === 1}" @click="activeTab = 1">图层</span>
+      <span class="tab" :class="{'active-tab' : activeTab === 2}" @click="activeTab = 2">动画</span>
     </div>
     <div class="style-wrap" v-show="activeTab === 0">
       <component
@@ -70,7 +71,7 @@
                       <template v-if="widget.type == 'w-text'">
                         {{widget.text}}
                       </template>
-                      <template v-if="widget.type == 'w-image'">
+                      <template v-if="widget.type == 'w-image' || widget.type == 'w-svg'">
                         <img class="small-img" :src="widget.imgUrl"/>
                       </template>
                     </td>
@@ -93,6 +94,55 @@
         </li>
       </transition-group>
     </div>
+    <div class="layer-wrap" v-show="activeTab === 2 ">
+      <el-collapse v-model="activeNames">
+         <el-collapse-item title="播放控制" name="0">
+           <el-switch
+            v-model="playAnimate"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="stopAnimate(playAnimate)"
+            >
+          </el-switch>
+         </el-collapse-item>
+        <el-collapse-item title="动画设置" name="1">
+           <div class="line-layout style-item" v-show="dActiveElement.uuid != -1">
+        <div style="margin-bottom:10px;">
+          <template v-for="an in getAnimatesInfo()">
+            <el-tag class="margin-left-10" :key="an" >{{an}}</el-tag>
+          </template>
+        </div>
+        <el-form ref="form" label-width="80px" size="mini">
+          <el-form-item label="动画名称">
+            <el-select v-model="choseAnimate" clearable placeholder="请选择">
+              <el-option
+                v-for="item in animates"
+                :key="item.name"
+                :label="item.label"
+                :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="动画速度">
+            <el-select v-model="choseAnimateSpeed" clearable placeholder="请选择">
+              <el-option
+                v-for="item in animateSpeed"
+                :key="item.name"
+                :label="item.label"
+                :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item >
+            <el-button type="primary" @click="createAnimate">立即创建</el-button>
+            <el-button type="danger" @click="deleteAnimate">删除动画</el-button>
+          </el-form-item>
+        </el-form>
+        </div>
+        </el-collapse-item>
+      </el-collapse>
+      
+    </div>
   </div>
 </template>
 
@@ -105,7 +155,43 @@ export default {
   name: NAME,
   data() {
     return {
-      activeTab: 0
+      activeNames: ['0', '1'],
+      activeTab: 0,
+      choseAnimate: "",
+      choseAnimateSpeed: "",
+      playAnimate: true,
+      animates: [
+        {
+          name: "move-to-right",
+          label: "平移移动",
+          tag: "move"
+        },
+        {
+          name: "rotation",
+          label: "旋转",
+          tag: "rotation"
+        },
+        {
+          name: "flashing",
+          label: "闪烁",
+          tag: "flashing"
+        },
+        {
+          name: "zoom",
+          label: "放大",
+          tag: "zoom"
+        },
+        {
+          name: "pendulum",
+          label: "钟摆",
+          tag: "pendulum"
+        }
+      ],
+      animateSpeed: [
+        { name: "slow", label: "慢" },
+        { name: "normal", label: "中" },
+        { name: "fast", label: "快" }
+      ]
     };
   },
   computed: {
@@ -135,7 +221,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["selectWidget", "updateHoverUuid", "moveLayer"]),
+    ...mapActions([
+      "selectWidget",
+      "updateHoverUuid",
+      "moveLayer",
+      "updateWidgetData",
+      "stopAnimate"
+    ]),
     selectLayer(widget) {
       this.selectWidget({
         uuid: widget.uuid
@@ -187,6 +279,53 @@ export default {
     },
     openWidgetDetail(widget) {
       console.debug("查看图层详情", widget);
+    },
+    deleteAnimate() {
+      if (this.dActiveElement.uuid != -1) {
+        this.updateWidgetData({
+          uuid: this.dActiveElement.uuid,
+          key: "animates",
+          value: [],
+          pushHistory: true
+        });
+      }
+    },
+    createAnimate() {
+      if (this.choseAnimate && this.choseAnimateSpeed) {
+        let ay = [];
+        ay.push(this.choseAnimate);
+        ay.push(this.choseAnimate + "-" + this.choseAnimateSpeed);
+        this.updateWidgetData({
+          uuid: this.dActiveElement.uuid,
+          key: "animates",
+          value: ay,
+          pushHistory: true
+        });
+      }
+    },
+    getAnimatesInfo(){
+      let ins = this;
+      if (this.dActiveElement.uuid == -1) return []
+      let animates = this.dActiveElement.animates
+      let ret = []
+      if(animates){
+        animates.forEach(el=>{
+          let f = ins.animates.find(e=>e.name == el)
+          if(f) ret.push(f.label)
+          else{
+            if(el.indexOf('fast')){
+              ret.push('快')
+            }
+            else if(el.indexOf('normal')){
+              ret.push('中')
+            }
+            else if(el.indexOf('slow')){
+              ret.push('慢')
+            }
+          }
+        })
+      }
+      return ret
     }
   }
 };
@@ -276,7 +415,6 @@ export default {
           width: 100%;
           height: 100%;
         }
-
       }
 
       .item-one {
@@ -305,18 +443,27 @@ export default {
       .type-shape {
         background-image: url('../../../assets/icon/shapes_icon.png');
       }
+
       .w-group {
         background-image: url('../../../assets/icon/group_icon.png');
+      }
+      .w-svg {
+        background-image: url('../../../assets/icon/svg_icon.svg');
       }
     }
   }
 }
-.small-img{
-  max-width:220px;
-  max-height:300px;
-  height:auto;
+
+.small-img {
+  max-width: 220px;
+  max-height: 300px;
+  height: auto;
 }
-.info-table > tbody > tr>td:nth-child(1){
-  font-weight :bolder;
+
+.info-table > tbody > tr>td:nth-child(1) {
+  font-weight: bolder;
+}
+.margin-left-10{
+  margin-left:10px;
 }
 </style>

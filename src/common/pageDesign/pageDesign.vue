@@ -27,10 +27,7 @@
         <component
           :is="layer.type"
           class="layer"
-          :class="{
-            'layer-active': getIsActive(layer.uuid),
-            'layer-hover': layer.uuid === dHoverUuid || dActiveElement.parent === layer.uuid
-          }"
+          :class="getA(layer)"
           :data-title="layer.type"
           v-for="layer in getlayers()"
           :key="layer.uuid"
@@ -70,7 +67,9 @@ import { mapGetters, mapActions } from "vuex";
 const NAME = "page-design";
 
 import { move } from "MIXINS/move";
-
+import '../../assets/css/controll-animate.css';
+import 'animate.css'
+import domUtil from '../../util/domUtil';
 export default {
   name: NAME,
   props: ["pageDesignCanvasId"],
@@ -86,7 +85,8 @@ export default {
       "dActiveElement",
       "dHoverUuid",
       "dSelectWidgets",
-      "dAltDown"
+      "dAltDown",
+      "animatePlayControl"
     ])
   },
   mixins: [move],
@@ -94,11 +94,23 @@ export default {
     this.getScreen();
     document
       .getElementById("page-design")
-      .addEventListener("mousedown", this.handleSelection, false);
+      .addEventListener("mousedown", this.handleSelection, true);
   },
   beforeDestroy() {},
   methods: {
     ...mapActions(["updateScreen", "selectWidget", "deleteWidget"]),
+    getA(layer){
+      return [
+        this.getIsActive(layer.uuid)?'layer-active':'',
+        layer.uuid === this.dHoverUuid || this.dActiveElement.parent === layer.uuid?'layer-hover':'',
+        this.getAnimate(layer)]
+    },
+    getAnimate(layer){
+      if(layer.animates && this.animatePlayControl.play){
+        return layer.animates.join(' ')
+      }
+      return ''
+    },
     getScreen() {
       let screen = this.$refs["page-design"];
       this.updateScreen({
@@ -107,15 +119,26 @@ export default {
       });
     },
     handleSelection(e) {
+      console.debug('handleSelection')
       if (e.which === 3) {
         return;
       }
-      let target = e.target;
+      let target = e.target
       let type = target.getAttribute("data-type");
-
-      // if (type === 'w-text' && e.target.contentEditable === 'true') {
-      //   return
-      // }
+      let role = target.getAttribute('role');
+      // 如果是控制组件 跳过
+      if(role == 'sizeControl'){
+        console.debug('控制组件点击 跳过')
+        return;
+      }
+      if(!type){
+        console.debug('本节点未找到，回溯父节点')
+        let trueTarget = domUtil.getWidgetRoot(e.target)
+        target = trueTarget || e.target;
+      }else{
+        console.debug('本节点找到')
+      }
+      type = target.getAttribute("data-type");
 
       if (type) {
         let uuid = target.getAttribute("data-uuid");

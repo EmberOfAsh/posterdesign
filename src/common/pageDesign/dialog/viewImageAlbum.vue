@@ -38,7 +38,7 @@
             <el-breadcrumb separator="/" style="margin-top: 10px;">
               <el-breadcrumb-item>所有类别</el-breadcrumb-item>
               <template v-for="item in breadcrumbData">
-                <el-breadcrumb-item :key="item.name">
+                <el-breadcrumb-item :key="item.materialId">
                   <a @click="breadPathClick(item)">{{item.name}}</a>
                 </el-breadcrumb-item>
               </template>
@@ -53,7 +53,7 @@
           </el-col>
         </el-row>
         <template v-for="tp in tps">
-          <el-popover placement="right-start" width="280" trigger="click" :key="tp.name" >
+          <el-popover placement="right-start" width="280" trigger="click" :key="tp.materialId" >
             <div>
               <p>
                 <span class="right-start-icon">
@@ -168,6 +168,16 @@ export default {
     type: {
       type: String,
       default: "image"
+    },
+    //工作模式， change: 选择后立即更改, callback: 选择后回调
+    mode: {
+      type: String,
+      default: "change"
+    },
+    //发起位置
+    from:{
+      type: String,
+      default: ""
     }
   },
   computed: {
@@ -343,12 +353,15 @@ export default {
     },
     chose(tp){
       let imgUrl = serverInfo.getViewUrl(tp.url)
-      this.updateWidgetData({
-        uuid: this.dActiveElement.uuid,
-        key: 'imgUrl',
-        value: imgUrl,
-        pushHistory: true
-      })
+      if(this.mode == 'change'){
+        this.updateWidgetData({
+          uuid: this.dActiveElement.uuid,
+          key: 'imgUrl',
+          value: imgUrl,
+          pushHistory: true
+        })
+      }
+      this.$emit("callback",{from:this.from,url:imgUrl});
       this.config.visiable = false
     }
   }

@@ -1,4 +1,6 @@
 <template>
+<transition enter-active-class="animated zoomInDown"
+      leave-active-class="animated rollOut">
   <img 
     id="w-image"
     ref="widget"
@@ -18,6 +20,7 @@
       'transform':'rotate('+params.rotate+'deg)',
       'z-index':params.zIndex
     }"/>
+</transition>
 </template>
 
 <script>

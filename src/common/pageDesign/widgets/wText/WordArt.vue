@@ -1,20 +1,18 @@
 <template>
 <transition enter-active-class="animated rollIn" leave-active-class="animated rollOut">
-  <div 
-    id="w-text"
+  <img 
+    id="word-art"
     v-html="params.text"
     :contenteditable="editable ? 'plaintext-only' : false"
     @dblclick="(e) => dblclickText(e)"
     :class="[{'edit-text': editable}, params.uuid]"
     ref="widget"
+    :src="wordArtSrc"
     :style="{
       position: 'absolute',
       left: (params.left - parent.left) + 'px',
       top: (params.top - parent.top) + 'px',
       width: Math.max(params.fontSize, params.width) + 'px',
-      minWidth: params.fontSize + 'px',
-      minHeight: params.fontSize * params.lineHeight + 'px',
-      lineHeight: params.fontSize * params.lineHeight + 'px',
       letterSpacing: params.fontSize * params.letterSpacing / 100 + 'px',
       fontSize: params.fontSize + 'px',
       color: params.textColor,
@@ -27,34 +25,33 @@
       'transform': 'rotate('+params.rotate+'deg)',
       'z-index': params.zIndex,
       'font-family': params.fontFamily
-    }">
-  </div>
+    }"/>
 </transition>
 </template>
 
 <script>
-// 文本组件
-const NAME = "w-text";
+// 艺术字组件
+const NAME = "word-art";
 
 import { mapGetters, mapActions } from "vuex";
-
+import serverInfo from '../../../../config/serverInfo.js'
 export default {
   name: NAME,
   setting: {
-    name: "文本",
+    name: "艺术字",
     type: NAME,
     uuid: -1,
     editable: true,
-    width: 300,
+    width: 1000,
     left: 0,
     top: 0,
     lineHeight: 1.5,
     letterSpacing: 0,
-    fontSize: 24,
+    fontSize: 200,
     fontWeight: "normal",
     fontStyle: "normal",
     textDecoration: "none",
-    textColor: "rgba(0, 0, 0, 1)",
+    textColor: "#000",
     textAlign: "left",
     text: "文本",
     opacity: 1,
@@ -96,7 +93,30 @@ export default {
     this.updateRecord();
   },
   computed: {
-    ...mapGetters(["dActiveElement"])
+    ...mapGetters(["dActiveElement"]),
+    wordArtSrc(){
+      let ay = [];
+      ay.push('text='+encodeURI(this.params.text))
+      ay.push('font='+encodeURI(this.params.fontFamily))
+      ay.push('size='+encodeURI(this.params.fontSize)+'px')
+      ay.push('color='+encodeURI(this.params.textColor.replace('#','')))
+      ay.push('fontWeight='+this.params.fontWeight)
+      ay.push('fontStyle='+this.params.fontStyle)
+      ay.push('textDecoration='+this.params.textDecoration)
+      ay.push('letterSpacing='+(this.params.fontSize * this.params.letterSpacing / 100))
+      let url = serverInfo.uploadServer+'/imageText?'+ay.join('&')
+      return url
+    }
+  },
+  watch:{
+    "params.width":function(val){
+      // 根据拉伸宽度，计算字体大小
+      if(val && this.params.text.length > 0){
+        let w = val / this.params.text.length
+        console.debug('重新计算字体大小：',w)
+        this.params.fontSize = w
+      }
+    }
   },
   methods: {
     ...mapActions(["updateWidgetData", "updateEditeTextDialog"]),
@@ -113,7 +133,7 @@ export default {
     dblclickText(e) {
       console.log("更改文本文字");
       this.updateEditeTextDialog({ display: true });
-    }
+    } 
   }
 };
 </script>

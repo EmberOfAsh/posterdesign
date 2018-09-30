@@ -9,7 +9,7 @@
         :key="index"
         :style="{
           width: boxWidth + 'px',
-          height: boxWidth / item.ratio + 'px',
+          minHeight: boxHeight(item),
           top: item.top + 'px',
           left: item.left + 'px'
         }"
@@ -20,7 +20,9 @@
             :src="item.value.url"
             :style="{
               width: boxWidth - 10 + 'px',
-              height: boxWidth / item.ratio - 10 + 'px'
+              //最大值
+              maxHeight: boxWidth / item.ratio  + 'px'
+              //height: boxWidth / item.ratio - 10 + 'px'
             }" />
         </transition>
         <div class="delete" v-if="item.value.canDel" @click.stop="deleteImg(item, index)">
@@ -101,6 +103,10 @@ export default {
     }
   },
   methods: {
+    boxHeight(item){
+      let h = this.boxWidth / item.ratio
+      return Math.max(h,50)+ 'px'
+    },
     preLoadImg () {
       this.innerListData = []
       this.listData.forEach((item, index) => {
@@ -126,7 +132,7 @@ export default {
         }
         item.top = heightList[col]
         item.left = this.boxWidth * col + 1
-        heightList[col] += this.boxWidth / item.ratio
+        heightList[col] += Math.max(this.boxWidth / item.ratio,50)
       }
       this.listHeight = Math.max.apply(null, heightList)
     },

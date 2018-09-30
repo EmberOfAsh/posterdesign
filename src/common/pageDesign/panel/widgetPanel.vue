@@ -7,19 +7,20 @@
           :class="{ 'active-classify-item' : activeWidgetClassify === index}"
           v-for="(item, index) in widgetClassifyList" 
           :key="index"
-          @click="clickClassify(index)">
+          @click="clickClassify(item.id)">
           <i :class="item.icon" class="iconfont"></i>
           <p>{{ item.name }}</p>
         </li>
       </ul>
     </div>
     <div class="widget-wrap">
-      <text-list-wrap v-if="widgetClassifyList[0].show" :style="getStyle(0)" />
-      <shape-list-wrap v-if="widgetClassifyList[1].show" :style="getStyle(1)" />
-      <img-list-wrap v-if="widgetClassifyList[2].show" :style="getStyle(2)" />
-      <img-material v-if="widgetClassifyList[3].show" :style="getStyle(3)"/>
-      <effect-material v-if="widgetClassifyList[4].show" :style="getStyle(4)"/>
-      <poster-template v-if="widgetClassifyList[5].show" :style="getStyle(5)"/> 
+      <text-list-wrap v-if="widgetClassifyList.find(id=>id.id==0).show" :style="getStyle(0)" />
+      <shape-list-wrap v-if="widgetClassifyList.find(id=>id.id==1).show" :style="getStyle(1)" />
+      <img-list-wrap v-if="widgetClassifyList.find(id=>id.id==2).show" :style="getStyle(2)" />
+      <img-material v-if="widgetClassifyList.find(id=>id.id==3).show" :style="getStyle(3)"/>
+      <effect-material v-if="widgetClassifyList.find(id=>id.id==4).show" :style="getStyle(4)"/>
+      <poster-template v-if="widgetClassifyList.find(id=>id.id==5).show" :style="getStyle(5)"/> 
+      <qr-code-create v-if="widgetClassifyList.find(id=>id.id==6).show" :style="getStyle(6)"/> 
     </div>
   </div>
 </template>
@@ -36,32 +37,44 @@ export default {
         {
           name: '文本',
           icon: 'icon-text',
-          show: false
+          show: false,
+          id:0
         },
         {
           name: '形状',
           icon: 'icon-shape',
-          show: false
+          show: false,
+          id:1
         },
         {
           name: '图片',
           icon: 'icon-pic',
-          show: false
+          show: false,
+          id:2
         },
         {
           name: '素材',
           icon: 'icon-material',
-          show: false
+          show: false,
+          id:3
         },
         {
           name: '特效',
           icon: 'icon-material',
-          show: false
+          show: false,
+          id:4
         },
         {
           name: '模版',
           icon: 'icon-material',
-          show: false
+          show: false,
+          id:5
+        },
+        {
+          name: '二维码',
+          icon: 'icon-material',
+          show: false,
+          id:6
         }
       ],
       activeWidgetClassify: -1

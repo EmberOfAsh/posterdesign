@@ -25,7 +25,7 @@
 <script>
 // 图片列表
 const NAME = "poster-template";
-
+import wSvg from 'COMMON/pageDesign/widgets/wImage/wSvg';
 import wImage from "COMMON/pageDesign/widgets/wImage/wImage";
 import serverInfo from "../../../config/serverInfo.js";
 
@@ -66,6 +66,14 @@ export default {
       };
     },
     selectImg(item) {
+       if(item.value.contentType == 'image/svg+xml'){
+        let setting = JSON.parse(JSON.stringify(wSvg.setting));
+        setting.width = 400;
+        setting.height = parseInt(setting.width / item.value.ratio);
+        setting.imgUrl = item.value.rawUrl;
+        this.addWidget(setting);
+        return
+      }
       let setting = JSON.parse(JSON.stringify(wImage.setting));
       setting.width = 100;
       setting.height = parseInt(100 / item.value.ratio);

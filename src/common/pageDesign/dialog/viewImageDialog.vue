@@ -54,6 +54,16 @@ export default {
     display: {
       type: Boolean,
       default: true
+    },
+    //工作模式， change: 选择后立即更改, callback: 选择后回调
+    mode: {
+      type: String,
+      default: "change"
+    },
+    //发起位置
+    from:{
+      type: String,
+      default: ""
     }
   },
   computed: {
@@ -92,12 +102,15 @@ export default {
       }
       this.config.visiable = false;
       console.debug('更改后的图片地址: ',imgUrl);
-      this.updateWidgetData({
-        uuid: this.dActiveElement.uuid,
-        key: 'imgUrl',
-        value: imgUrl,
-        pushHistory: true
-      })
+      if(this.mode == 'change'){
+         this.updateWidgetData({
+          uuid: this.dActiveElement.uuid,
+          key: 'imgUrl',
+          value: imgUrl,
+          pushHistory: true
+        })
+      }
+      this.$emit("callback",{from:this.from,url:imgUrl});
       this.reset()
     },handleUploadSuccess(res, file){
       this.imgUrl = serverInfo.getViewUrl(res.url);

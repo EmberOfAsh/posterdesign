@@ -1,0 +1,130 @@
+/**从左移动到右边**/
+.move-to-right {}
+
+/**移动 快慢**/
+.move-to-right-fast {
+  animation: activity 3s infinite linear;
+}
+
+.move-to-right-normal {
+  animation: activity 8s infinite linear;
+}
+
+.move-to-right-slow {
+  animation: activity 12s infinite linear;
+}
+
+@keyframes activity {
+  0% {}
+
+  50% {
+    left: 50%;
+  }
+
+  100% {}
+}
+
+.rotation {
+  position: relative;
+  animation: rotates 10s linear infinite;
+}
+
+.rotation-fast {
+  animation: rotates 5s linear infinite;
+}
+
+.rotation-normal {
+  animation: rotates 8s linear infinite;
+}
+
+.rotation-slow {
+  animation: rotates 12s linear infinite;
+}
+
+@keyframes rotates {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.flashing {}
+
+.flashing-slow {
+  animation: twinkle 1s infinite linear;
+}
+
+.flashing-normal {
+  animation: twinkle .8s infinite linear;
+}
+
+.flashing-fast {
+  animation: twinkle .4s infinite linear;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity:1
+  }
+
+  50% {
+    opacity:0
+  }
+
+  100% {
+    opacity:1
+  }
+}
+.zoom-fast{
+    animation:zoom 3s linear infinite;
+}
+.zoom-normal{
+    animation:zoom 5s linear infinite;
+}
+.zoom-slow{
+    animation:zoom 10s linear infinite;
+}
+@keyframes zoom{
+    0%{transform: scale(1,1);}
+    50%{transform: scale(2,2);}
+    100%{transform: scale(1,1);}
+}
+
+.pendulum{
+  animation: swings 2s ease-in-out  alternate infinite;
+  transform-origin: center top;
+}
+.pendulum-slow{
+  animation: swings 8s ease-in-out  alternate infinite;
+}
+.pendulum-normal{
+  animation: swings 4s ease-in-out  alternate infinite;
+}
+.pendulum-fast{
+  animation: swings 2s ease-in-out  alternate infinite;
+}
+
+@keyframes swings{
+  0%{	transform: rotate(-30deg);}
+  50%{transform:rotate(30deg);}
+  100%{	transform: rotate(-30deg);}
+}
+
+.delay-1s{
+  animation-delay:1s;
+}
+.delay-2s{
+  animation-delay:2s;
+}
+.delay-3s{
+  animation-delay:3s;
+}
+.delay-4s{
+  animation-delay:4s;
+}
+.delay-5s{
+  animation-delay:5s;
+}

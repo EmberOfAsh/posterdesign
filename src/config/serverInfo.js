@@ -12,6 +12,10 @@ const serverInfo = {
   /* 获取预览地址 */
   getViewUrl (res) {
     return this.uploadServer + res
+  },
+  /** 获取字体接口 */
+  getFontUrl () {
+    return this.uploadServer + '/font'
   }
 }
 

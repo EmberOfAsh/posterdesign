@@ -2,6 +2,9 @@ import serverInfo from '../../config/serverInfo'
 const generate = require('nanoid/generate')
 
 const state = {
+  animatePlayControl: {
+    play: true
+  },
   pageSizeDialog: {
     display: false
   },
@@ -161,6 +164,9 @@ const getters = {
   },
   pageSizeDialog (state) {
     return state.pageSizeDialog
+  },
+  animatePlayControl (state) {
+    return state.animatePlayControl
   }
 }
 
@@ -172,7 +178,7 @@ const actions = {
     let widgets = JSON.parse(JSON.stringify(store.state.dWidgets))
     // 替换图片相对路径
     widgets.forEach(ele => {
-      if (ele.type === 'w-image') {
+      if (ele.type === 'w-image' || ele.type === 'w-svg') {
         console.debug('replace: ', serverInfo.uploadServer)
         ele.imgUrl = ele.imgUrl.split(serverInfo.uploadServer).join('')
         console.log(ele.imgUrl)
@@ -479,7 +485,7 @@ const actions = {
     store.dispatch('reChangeCanvas')
   },
   clearWidget (store) {
-    store.state.dWidgets.length = 0
+    store.state.dWidgets = []
     store.state.dActiveElement = store.state.dPage
 
     store.dispatch('pushHistory')
@@ -546,6 +552,7 @@ const actions = {
   },
   // 选中元件与取消选中
   selectWidget (store, { uuid }) {
+    console.debug('select uuid: ', uuid)
     let alt = store.state.dAltDown
     let selectWidgets = store.state.dSelectWidgets
     let widget = store.state.dWidgets.find(item => item.uuid === uuid)
@@ -671,7 +678,7 @@ const actions = {
     let resizeWH = store.state.dResizeWH
     let parent = page
 
-    if (target.parent !== '-1') {
+    if (target.parent && target.parent !== '-1') {
       parent = store.state.dWidgets.find(item => item.uuid === target.parent)
     }
 
@@ -873,8 +880,9 @@ const actions = {
         }
         let gw = right - left
         let gh = bottom - top
-        let ws = gw * 0.08
-        let hs = gh * 0.1
+        // 额外增加group的宽/高
+        let ws = 20 // gw * 0.01
+        let hs = 20 // gh * 0.01
         group.left = left - ws
         group.top = top - hs
         group.width = gw + 2 * ws
@@ -992,6 +1000,9 @@ const actions = {
       }
     }
     store.state.dActiveElement = store.state.dPage
+  },
+  stopAnimate (store, play) {
+    store.state.animatePlayControl.play = play
   }
 }
 

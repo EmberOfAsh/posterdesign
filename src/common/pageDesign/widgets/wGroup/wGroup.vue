@@ -1,4 +1,6 @@
 <template>
+<transition enter-active-class="animated rollIn"
+      leave-active-class="animated rollOut">
   <div 
     id="w-group"
     ref="widget"
@@ -15,6 +17,7 @@
     }">
     <slot></slot>
   </div>
+</transition>
 </template>
 
 <script>

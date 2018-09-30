@@ -183,7 +183,7 @@ import {
   mapGetters,
   mapActions
 } from 'vuex';
-import 'animate.css';
+import domUtil from '../../util/domUtil';
 export default {
   name: 'page-design-index',
   data () {
@@ -393,9 +393,1106 @@ export default {
     "title": "中秋国庆节日插画海报",
     "width": 1920,
     "page": "{\"name\":\"背景页面\",\"type\":\"page\",\"uuid\":\"-1\",\"left\":0,\"top\":0,\"width\":1920,\"height\":1080,\"backgroundColor\":\"#fff\",\"backgroundImage\":\"\",\"opacity\":1,\"tag\":0.01,\"setting\":[{\"label\":\"背景颜色\",\"parentKey\":\"backgroundColor\",\"value\":false}],\"record\":{}}"
-} 
-        
-        this.loadPosterTemplate(pt)
+}
+
+pt = {
+    "category": "112",
+    "from": "www.egpic.cn",
+    "height": 3360,
+    "layouts": [
+        {
+            "id": 32,
+            "width": 2463,
+            "height": 3360,
+            "top": 0,
+            "left": 0,
+            "name": "底图",
+            "zindex": 0,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 1,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_2ca054190cb36936c989407de03edd51.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "width": 2463,
+            "height": 1062,
+            "top": 2298,
+            "left": 0,
+            "name": "图层 1",
+            "zindex": 1,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_3b239842d07aead6f9e90a891bf08b59.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "width": 770,
+            "height": 314,
+            "top": 2768,
+            "left": 59,
+            "name": "矢量智能对象",
+            "zindex": 2,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_70b07bb3c52392b08a94498579ae7de9.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "width": 817,
+            "height": 385,
+            "top": 2925,
+            "left": 777,
+            "name": "矢量智能对象",
+            "zindex": 3,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_c1efb4feca63986b2f1d678caa0e1d66.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "width": 618,
+            "height": 316,
+            "top": 2865,
+            "left": 1790,
+            "name": "矢量智能对象",
+            "zindex": 4,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_6b0a67c9e29e4608db4ca3ebcc79f45c.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "width": 513,
+            "height": 464,
+            "top": 2654,
+            "left": 1277,
+            "name": "矢量智能对象",
+            "zindex": 5,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_fe31e9a40b055ad8299473aec78bb22a.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "width": 183,
+            "height": 101,
+            "top": 2553,
+            "left": 1231,
+            "name": "矢量智能对象",
+            "zindex": 6,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_423ce457410c39f17777a822269151ec.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "width": 456,
+            "height": 456,
+            "top": 298,
+            "left": 880,
+            "name": "世",
+            "zindex": 7,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "世",
+            "fontSize": 456,
+            "fontFamily": "fangzhengshusong",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "width": 817,
+            "height": 525,
+            "top": 475,
+            "left": 861,
+            "name": "形状 1",
+            "zindex": 8,
+            "type": "w-svg",
+            "opacity": "1.000",
+            "isBgImage": 0,
+            "textColor": "rgba(255,255,255,1)",
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_a41c2b222a7ce229b79545ba6acdd07c.svg+xml",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "width": 238,
+            "height": 170,
+            "top": 1258,
+            "left": 854,
+            "name": "形状 2",
+            "zindex": 9,
+            "type": "w-svg",
+            "opacity": "1.000",
+            "isBgImage": 0,
+            "textColor": "rgba(255,255,255,1)",
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_a327e2b124e3ab4deb1087c561a1016a.svg+xml",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "width": 236,
+            "height": 176,
+            "top": 944,
+            "left": 1384,
+            "name": "形状 3",
+            "zindex": 10,
+            "type": "w-svg",
+            "opacity": "1.000",
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_41a7110876d0c8f64a6a64115e90fbdd.svg+xml",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "width": 54,
+            "height": 54,
+            "top": 634,
+            "left": 1542,
+            "name": "椭圆 1",
+            "zindex": 11,
+            "type": "w-svg",
+            "opacity": "1.000",
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_234d14def4ecf7c569f493ca95f7f37d.svg+xml",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "width": 57,
+            "height": 57,
+            "top": 1212,
+            "left": 984,
+            "name": "椭圆 1 拷贝",
+            "zindex": 12,
+            "type": "w-svg",
+            "opacity": "1.000",
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_931904dd2b054e309556766c2e4cfcc.svg+xml",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "width": 54,
+            "height": 54,
+            "top": 1357,
+            "left": 1322,
+            "name": "椭圆 1 拷贝 2",
+            "zindex": 13,
+            "type": "w-svg",
+            "opacity": "1.000",
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_7579a16349f6bfcffd7b151daf152cfd.svg+xml",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "width": 512,
+            "height": 243,
+            "top": 1290,
+            "left": 188,
+            "name": "矢量智能对象",
+            "zindex": 14,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_51607fb542e214a191e0b7a568a9aca8.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "width": 387,
+            "height": 386,
+            "top": 2864,
+            "left": 156,
+            "name": "矢量智能对象",
+            "zindex": 15,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_62a1d9d7d3e3b5465f26ab1b34176eb7.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "width": 476,
+            "height": 150,
+            "top": 634,
+            "left": 1898,
+            "name": "矢量智能对象",
+            "zindex": 16,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_3eedac42018a6ecbb81dd57134b7ef6f.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "width": 405,
+            "height": 397,
+            "top": 228,
+            "left": 1288,
+            "name": "界",
+            "zindex": 17,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_5ae1978e511261c2cc6f211748ebb260.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "width": 227,
+            "height": 678,
+            "top": 847,
+            "left": 1113,
+            "name": "旅游日",
+            "zindex": 18,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "旅游日",
+            "fontSize": 226,
+            "fontFamily": "fangzhengshusong",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "width": 53,
+            "height": 265,
+            "top": 740,
+            "left": 1406,
+            "name": "限量的时光",
+            "zindex": 19,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "限量的时光",
+            "fontSize": 53,
+            "fontFamily": "fangzhengshusong",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "width": 53,
+            "height": 318,
+            "top": 741,
+            "left": 1348,
+            "name": "不限量的记忆",
+            "zindex": 20,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "不限量的记忆",
+            "fontSize": 53,
+            "fontFamily": "fangzhengshusong",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "width": 240,
+            "height": 54,
+            "top": 1152,
+            "left": 1387,
+            "name": "2018.9.27",
+            "zindex": 21,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "2018.9.27",
+            "fontSize": 54,
+            "fontFamily": "fangzhengshusong",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "width": 919,
+            "height": 136,
+            "top": 1643,
+            "left": 818,
+            "name": "圆角矩形 1",
+            "zindex": 22,
+            "type": "w-svg",
+            "opacity": "1.000",
+            "isBgImage": 0,
+            "textColor": "rgba(255,79,136,1)",
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_291babb1d2a3ffd1b9865f663239bf92.svg+xml",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "width": 1452,
+            "height": 70,
+            "top": 1841,
+            "left": 582,
+            "name": "特色花园别墅+海边国际酒店+五星级自助晚餐",
+            "zindex": 23,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "特色花园别墅+海边国际酒店+五星级自助晚餐",
+            "fontSize": 70,
+            "fontFamily": "weiruanyahei",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "width": 1327,
+            "height": 94,
+            "top": 2216,
+            "left": 624,
+            "name": "世界旅游日 全场出游八折优惠",
+            "zindex": 24,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "世界旅游日 全场出游八折优惠",
+            "fontSize": 94,
+            "fontFamily": "weiruanyahei",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "letterSpacing": 0.06,
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "width": 206,
+            "height": 71,
+            "top": 1213,
+            "left": 1390,
+            "name": "矢量智能对象",
+            "zindex": 25,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_c55c536ccafbb4febfae110c3fa2e3d3.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "width": 98,
+            "height": 206,
+            "top": 989,
+            "left": 961,
+            "name": "矢量智能对象",
+            "zindex": 26,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_ab0293abe4f7fbb5069d6d122b4e80fb.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "width": 73,
+            "height": 116,
+            "top": 811,
+            "left": 1507,
+            "name": "矢量智能对象",
+            "zindex": 27,
+            "type": "w-image",
+            "opacity": 1,
+            "isBgImage": 0,
+            "imgUrl": "http://192.168.1.8:3000/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_3dbb1c6804a6e9607f2bc851f3ae83bc.png",
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "all",
+                "height": 1334
+            },
+            "radiusTopLeft": 0,
+            "radiusTopRight": 0,
+            "radiusBottomLeft": 0,
+            "radiusBottomRight": 0,
+            "parent": "-1",
+            "setting": [
+                {
+                    "parentKey": "imgUrl",
+                    "label": "图片",
+                    "value": true
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "width": 988,
+            "height": 70,
+            "top": 1954,
+            "left": 783,
+            "name": "SELF-DRVING TRAVELLING",
+            "zindex": 28,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "SELF-DRVING TRAVELLING",
+            "fontSize": 70,
+            "fontFamily": "weiruanyahei",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "letterSpacing": 0.1,
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "width": 84,
+            "height": 91,
+            "top": 2078,
+            "left": 1082,
+            "name": "￥",
+            "zindex": 29,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "￥",
+            "fontSize": 91,
+            "fontFamily": "weiruanyahei",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "textAlign": "center",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "width": 312,
+            "height": 116,
+            "top": 2061,
+            "left": 1171,
+            "name": "8888",
+            "zindex": 30,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "8888",
+            "fontSize": 116,
+            "fontFamily": "siyuanheiti",
+            "lineHeight": 1,
+            "textColor": "rgba(255,79,137,255)",
+            "textAlign": "center",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        },
+        {
+            "id": 0,
+            "width": 801,
+            "height": 91,
+            "top": 1665,
+            "left": 890,
+            "name": "爱上巴厘岛5日5夜",
+            "zindex": 31,
+            "parent": "-1",
+            "type": "w-text",
+            "text": "爱上巴厘岛5日5夜",
+            "fontSize": 91,
+            "fontFamily": "weiruanyahei",
+            "lineHeight": 1,
+            "textColor": "rgba(255,255,255,255)",
+            "letterSpacing": 0.06,
+            "textAlign": "left",
+            "rotate": 0,
+            "record": {
+                "minHeight": 10,
+                "width": 750,
+                "minWidth": 10,
+                "dir": "horizontal",
+                "height": 1334
+            },
+            "setting": [
+                {
+                    "parentKey": "text",
+                    "label": "文本内容",
+                    "value": true
+                },
+                {
+                    "parentKey": "textColor",
+                    "label": "文本颜色",
+                    "value": false
+                }
+            ]
+        }
+    ],
+    "pid": "6f634a7411e7202fc014e099f18a5767",
+    "preview": "/poster-res/6f634a7411e7202fc014e099f18a5767/6f634a7411e7202fc014e099f18a5767_42aec52e759221c00bc03f8e50f53c30.png",
+    "title": "世界旅游日印刷海报",
+    "width": 2463
+}
+
+this.loadPosterTemplate(pt)
       }
     },
     newPoster () {
@@ -442,7 +1539,7 @@ export default {
         this.showMenuBg = false
         return
       }
-      let target = e.target
+      let target = domUtil.getWidgetRoot(e.target) || e.target
       let type = target.getAttribute('data-type')
       if (type) {
         let uuid = target.getAttribute('data-uuid')// 设置选中元素

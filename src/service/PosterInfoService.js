@@ -1,5 +1,5 @@
 import serverInfo from '../config/serverInfo'
-
+import Vue from 'vue'
 let service = {
   loadPosterTemplate ($http, id, callback) {
     let url = '/poster/posterinfo/' + id
@@ -12,6 +12,7 @@ let service = {
         if (!element.zIndex)element.zIndex = 0
         if (!element.rotate)element.rotate = 0
         if (!element.fontFamily)element.fontFamily = ''
+        if (!element.animates)element.animates = []
       })
       callback(data)
     })
@@ -33,7 +34,7 @@ let service = {
     let url = '/poster/posterinfo'
     $http.post(url, data).then(response => {
       if (response.data.status) {
-        this.$message.success({
+        Vue.prototype.$message.success({
           message: response.data.msg
         })
       }
@@ -43,7 +44,7 @@ let service = {
     let url = '/poster/posterinfo'
     $http.put(url, data).then(response => {
       if (response.data.status) {
-        this.$message.success({
+        Vue.prototype.$message.success({
           message: response.data.msg
         })
       }
