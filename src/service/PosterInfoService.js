@@ -29,7 +29,7 @@ let service = {
       callback(datas, pager)
     })
   },
-  /** 保存模版数据 */
+  /** 保存模版数据  */
   savePosterInfo ($http, data) {
     let url = '/poster/posterinfo'
     $http.post(url, data).then(response => {
