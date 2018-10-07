@@ -2,7 +2,6 @@
 <transition enter-active-class="animated rollIn" leave-active-class="animated rollOut">
   <div 
     id="w-text"
-    v-html="params.text"
     :contenteditable="editable ? 'plaintext-only' : false"
     @dblclick="(e) => dblclickText(e)"
     :class="[{'edit-text': editable}, params.uuid]"
@@ -28,6 +27,18 @@
       'z-index': params.zIndex,
       'font-family': params.fontFamily
     }">
+    <template v-for="w in textDis">
+      <transition :key="w.text" enter-active-class="animated bounceInRight fadeInRight" leave-active-class="animated rollOut">
+        <div class="font" v-html="w.text" v-show="w.display" style="width:fit-content;width:-webkit-fit-content;width:-moz-fit-content;" ></div>{{params}}
+      </transition>
+
+      
+    </template>
+
+    <!--  <template v-for="w in textDis">
+      <w-test :text="w.text" v-if="w.display"></w-test>
+    </template>
+    -->
   </div>
 </transition>
 </template>
@@ -37,6 +48,8 @@
 const NAME = "w-text";
 
 import { mapGetters, mapActions } from "vuex";
+import '../../../../assets/css/controll-animate.css';
+import 'animate.css'
 
 export default {
   name: NAME,
@@ -86,7 +99,8 @@ export default {
   props: ["params", "parent"],
   data() {
     return {
-      editable: false
+      editable: false,
+      textDis:[]
     };
   },
   updated() {
@@ -97,6 +111,18 @@ export default {
   },
   computed: {
     ...mapGetters(["dActiveElement"])
+  },
+  watch:{
+    "params.text":function(val){
+      this.textDis = this.params.text.split('').map(v=>{
+        return {display:false,text:v}
+      })
+      console.debug(this.textDis)
+      let ins = this;
+      setTimeout(()=>{
+        ins.textAnimate(ins)
+      },2000)
+    }
   },
   methods: {
     ...mapActions(["updateWidgetData", "updateEditeTextDialog"]),
@@ -113,6 +139,17 @@ export default {
     dblclickText(e) {
       console.log("更改文本文字");
       this.updateEditeTextDialog({ display: true });
+    },
+    textAnimate(ins){
+      let idx = 0
+      let timer = setInterval(()=>{
+        if(ins.textDis.length <= idx){
+          clearInterval(timer)
+          return;
+        }
+        ins.textDis[idx].display = true
+        idx++
+      },100)
     }
   }
 };
@@ -129,6 +166,12 @@ export default {
   &.edit-text {
     cursor: text;
     outline: 1px solid $color-black !important;
+  }
+  .font {
+    width:fit-content;
+    width:-webkit-fit-content;
+    width:-moz-fit-content;
+    float:left;
   }
 }
 </style>

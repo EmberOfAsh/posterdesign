@@ -68,6 +68,12 @@ import {
   Message,
   Notification
 } from 'element-ui'
+// fade/zoom 等
+import 'element-ui/lib/theme-chalk/base.css'
+// collapse 展开折叠
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
+
+Vue.component(CollapseTransition.name, CollapseTransition)
 
 Vue.use(Pagination)
 Vue.use(Dialog)
