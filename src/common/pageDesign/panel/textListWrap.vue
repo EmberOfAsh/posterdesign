@@ -12,7 +12,7 @@
           v-for="(item, index) in basicTextList"
           :key="index"
           :style="{
-            fontSize: item.fontSize / 2 + 'px',
+            fontSize: item.disFontSize / 2 + 'px',
             fontWeight: item.fontWeight
           }"
           @click="selectBasicText(item)">
@@ -53,37 +53,22 @@ export default {
       hadShowMyImg: true,
       hadShowRecommendImg: false,
       fontsList:[],
-      basicTextList: [
-        {
-          text: '大标题',
-          fontSize: 96,
-          fontWeight: 'bold'
-        },
-        {
-          text: '标题',
-          fontSize: 60,
-          fontWeight: 'bold'
-        },
-        {
-          text: '副标题',
-          fontSize: 40,
-          fontWeight: 'normal'
-        },
-        {
-          text: '小标题',
-          fontSize: 36,
-          fontWeight: 'normal'
-        },
-        {
-          text: '正文内容',
-          fontSize: 28,
-          fontWeight: 'normal'
-        }
-      ]
+      basicTextList: []
     }
   },
   mounted(){
     this.loadFontsInfo()
+    this.initTextList()
+  },
+  computed: {
+    ...mapGetters([
+      'dPage'
+    ]),
+    /*主标题 字体大小*/
+    mainTitleFontSize(){
+      let max = Math.min(this.dPage.width,this.dPage.height)
+      return Math.ceil(max / 10)
+    }
   },
   watch:{
     activeTab(value) {
@@ -98,6 +83,38 @@ export default {
     ...mapActions([
       'addWidget'
     ]),
+    initTextList(){
+      this.basicTextList = [{
+          text: '大标题',
+          fontSize: this.mainTitleFontSize,
+          disFontSize: 96,
+          fontWeight: 'bold'
+        },
+        {
+          text: '标题',
+          fontSize: Math.ceil(this.mainTitleFontSize * 2 / 3),
+          disFontSize:60,
+          fontWeight: 'bold'
+        },
+        {
+          text: '副标题',
+          fontSize: Math.ceil(this.mainTitleFontSize * 1 / 2),
+          disFontSize:40,
+          fontWeight: 'normal'
+        },
+        {
+          text: '小标题',
+          fontSize: Math.ceil(this.mainTitleFontSize / 3),
+          disFontSize: 36,
+          fontWeight: 'normal'
+        },
+        {
+          text: '正文内容',
+          fontSize: Math.ceil(this.mainTitleFontSize / 4),
+          disFontSize: 28,
+          fontWeight: 'normal'
+        }]
+    },
     getStyle(index) {
       return {
         display: this.activeTab === index ? "" : "none"
@@ -140,7 +157,7 @@ export default {
       setting.fontFamily = data.fontName
       setting.text = '艺术字体'
       this.addWidget(setting)
-    }
+    },
   }
 }
 </script>

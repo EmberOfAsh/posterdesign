@@ -92,8 +92,8 @@ export default {
         //Lets draw the flakes
         function draw() {
           ctx.clearRect(0, 0, W, H);
-          ctx.fillStyle = "blue"
-          // ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+          //ctx.fillStyle = "#000"
+          ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
           /* ctx.fillStyle = "#FF0000";*/
           ctx.beginPath();
           for (var i = 0; i < mp; i++) {

@@ -12,7 +12,7 @@
       position: 'absolute',
       left: (params.left - parent.left) + 'px',
       top: (params.top - parent.top) + 'px',
-      width: Math.max(params.fontSize, params.width) + 'px',
+      width: fontWidth+ 'px',
       letterSpacing: params.fontSize * params.letterSpacing / 100 + 'px',
       fontSize: params.fontSize + 'px',
       color: params.textColor,
@@ -77,7 +77,7 @@ export default {
       height: 0,
       minWidth: 0,
       minHeight: 0,
-      dir: "horizontal"
+      dir: "none"
     }
   },
   props: ["params", "parent"],
@@ -100,22 +100,34 @@ export default {
       ay.push('font='+encodeURI(this.params.fontFamily))
       ay.push('size='+encodeURI(this.params.fontSize)+'px')
       ay.push('color='+encodeURI(this.params.textColor.replace('#','')))
-      ay.push('fontWeight='+this.params.fontWeight)
-      ay.push('fontStyle='+this.params.fontStyle)
-      ay.push('textDecoration='+this.params.textDecoration)
-      ay.push('letterSpacing='+(this.params.fontSize * this.params.letterSpacing / 100))
+      //ay.push('fontWeight='+this.params.fontWeight)
+      //ay.push('fontStyle='+this.params.fontStyle)
+      //ay.push('textDecoration='+this.params.textDecoration)
+      ay.push('space='+(this.params.fontSize * this.params.letterSpacing / 100))
       let url = serverInfo.uploadServer+'/imageText?'+ay.join('&')
       return url
+    },
+    //字体显示的宽度
+    fontWidth(){
+      // 字体大小 * 字数 + 字体大小 * 字距离 * (字数 - 1)
+      let w = this.params.text
+      if(!w)return 10
+      let wc = w.length
+      let v = this.params.fontSize * wc +  this.params.fontSize * this.params.letterSpacing / 100 * (wc - 1)
+      console.debug('计算艺术字体宽度: ',v)
+      return v
     }
   },
   watch:{
     "params.width":function(val){
       // 根据拉伸宽度，计算字体大小
+      /*
       if(val && this.params.text.length > 0){
         let w = val / this.params.text.length
         console.debug('重新计算字体大小：',w)
         this.params.fontSize = w
       }
+      */
     }
   },
   methods: {
@@ -133,7 +145,7 @@ export default {
     dblclickText(e) {
       console.log("更改文本文字");
       this.updateEditeTextDialog({ display: true });
-    } 
+    }
   }
 };
 </script>

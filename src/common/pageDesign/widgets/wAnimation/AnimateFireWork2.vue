@@ -22,14 +22,14 @@
 
 <script>
 // 形状-圆形组件
-const NAME = "w-snow";
+const NAME = "w-fire-work1";
 
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: NAME,
   setting: {
-    name: "雪花特效",
+    name: "烟花效果",
     type: NAME,
     uuid: -1,
     width: 500,

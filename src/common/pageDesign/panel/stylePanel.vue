@@ -68,11 +68,14 @@
                   <tr>
                     <td>内容: </td>
                     <td>
-                      <template v-if="widget.type == 'w-text'">
+                      <template v-if="widget.type == 'w-text' || widget.type == 'word-art'" >
                         {{widget.text}}
                       </template>
                       <template v-if="widget.type == 'w-image' || widget.type == 'w-svg'">
                         <img class="small-img" :src="widget.imgUrl"/>
+                      </template>
+                      <template v-if="widget.type =='qr-code'">
+                        {{widget.qrData.text}}
                       </template>
                     </td>
                   </tr>

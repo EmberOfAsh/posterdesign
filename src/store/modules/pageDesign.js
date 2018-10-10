@@ -171,6 +171,17 @@ const getters = {
 }
 
 const actions = {
+  /** 更新组件 设置其铺满屏幕 */
+  updateFullPage (store) {
+    let uuid = store.state.dActiveElement.uuid
+    let widget = store.state.dWidgets.find(item => item.uuid === uuid)
+    widget.width = store.state.dPage.width
+    widget.height = store.state.dPage.height
+    widget.top = 0
+    widget.left = 0
+    store.dispatch('pushHistory')
+    store.dispatch('reChangeCanvas')
+  },
   /** 更新模版数据 **/
   updatePosterTemplateInfo (store) {
     store.state.posterTemplateInfo.width = store.state.dPage.width

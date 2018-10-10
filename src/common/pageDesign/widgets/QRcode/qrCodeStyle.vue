@@ -17,7 +17,8 @@
           :maxValue="360" 
           @finish="(value) => finish('rotate', value)" />
         <icon-item-select class="style-item" label="图层层级" :data="layerIconList" @finish="layerAction"/>
-        <icon-item-select label="组件对齐" :data="alignIconList" @finish="alignAction"/>
+        <icon-item-select class="style-item" label="组件对齐" :data="alignIconList" @finish="alignAction"/>
+        <text-input-area  class="style-item" label="存储内容" v-model="innerElement.qrData.text" @finish="(value) => finish('qrData.text', value)" />
       </el-collapse-item>
       <el-collapse-item title="其他设置" name="4">
         <text-input label="图层名称" v-model="innerElement.name" @finish="(value) => finish('name', value)" />

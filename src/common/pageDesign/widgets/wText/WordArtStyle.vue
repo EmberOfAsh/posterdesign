@@ -50,7 +50,6 @@
         </div>
         <icon-item-select class="style-item" label="图层层级" :data="layerIconList" @finish="layerAction"/>
         <icon-item-select class="style-item" label="组件对齐" :data="alignIconList" @finish="alignAction"/>
-        <icon-item-select class="style-item" label="文本样式" :data="styleIconList" @finish="textStyleAction"/>
         <text-input-area label="文本内容" v-model="innerElement.text" @finish="(value) => finish('text', value)" />
       </el-collapse-item>
       <el-collapse-item title="其他设置" name="3">
@@ -97,25 +96,6 @@ export default {
         'text',
         'textColor',
         'backgroundColor'
-      ],
-      fontSizeList: [
-        '12',
-        '24',
-        '26',
-        '28',
-        '30',
-        '34',
-        '36',
-        '40',
-        '44',
-        '46',
-        '50',
-        '60',
-        '72',
-        '96',
-        '106',
-        '120',
-        '144'
       ],
       lineHeightList: [
         '1',
@@ -241,8 +221,13 @@ export default {
   computed: {
     ...mapGetters([
       'dActiveElement',
-      'dMoving'
-    ])
+      'dMoving',
+      'dPage'
+    ]),
+    fontSizeList(){
+      let max = Math.min(this.dPage.width,this.dPage.height)
+      return domUtil.calcFontWidths(max)
+    }
   },
   watch: {
     dActiveElement: {

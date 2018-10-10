@@ -10,6 +10,7 @@
         </div>
       </el-collapse-item>
       <el-collapse-item title="样式设置" name="2">
+        <el-button size="small" @click="()=>this.updateFullPage()">填充背景</el-button>
         <number-slider 
           class="style-item" 
           label="旋转角度" 
@@ -142,7 +143,8 @@ export default {
     ...mapActions([
       'updateWidgetData',
       'updateAlign',
-      'updateLayerIndex'
+      'updateLayerIndex',
+      'updateFullPage'
     ]),
     change () {
       this.tag = true
