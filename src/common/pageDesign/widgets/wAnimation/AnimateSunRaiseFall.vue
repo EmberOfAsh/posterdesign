@@ -190,10 +190,7 @@ export default {
             }
           }
 
-          ctx.globalCompositeOperation = godraysCtx.globalCompositeOperation =
-            "lighter";
-
-
+          ctx.globalCompositeOperation = godraysCtx.globalCompositeOperation = "lighter";
           for (
             let scaleFactor = 1.07;
             scaleFactor < 5;

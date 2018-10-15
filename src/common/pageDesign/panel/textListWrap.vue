@@ -86,31 +86,31 @@ export default {
     initTextList(){
       this.basicTextList = [{
           text: '大标题',
-          fontSize: this.mainTitleFontSize,
+          fontSize: 1,
           disFontSize: 96,
           fontWeight: 'bold'
         },
         {
           text: '标题',
-          fontSize: Math.ceil(this.mainTitleFontSize * 2 / 3),
+          fontSize: 2 / 3,
           disFontSize:60,
           fontWeight: 'bold'
         },
         {
           text: '副标题',
-          fontSize: Math.ceil(this.mainTitleFontSize * 1 / 2),
+          fontSize: 1 / 2,
           disFontSize:40,
           fontWeight: 'normal'
         },
         {
           text: '小标题',
-          fontSize: Math.ceil(this.mainTitleFontSize / 3),
+          fontSize: 1 / 3,
           disFontSize: 36,
           fontWeight: 'normal'
         },
         {
           text: '正文内容',
-          fontSize: Math.ceil(this.mainTitleFontSize / 4),
+          fontSize: 1 / 4,
           disFontSize: 28,
           fontWeight: 'normal'
         }]
@@ -123,8 +123,9 @@ export default {
     selectBasicText (item) {
       let setting = JSON.parse(JSON.stringify(wText.setting))
       setting.text = item.text
-      setting.fontSize = item.fontSize
+      setting.fontSize = Math.ceil(this.mainTitleFontSize * item.fontSize)
       setting.fontWeight = item.fontWeight
+      setting.width = item.text.length * setting.fontSize
       this.addWidget(setting)
     },
     loadFontsInfo(){

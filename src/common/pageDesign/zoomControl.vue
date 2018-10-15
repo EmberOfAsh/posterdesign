@@ -48,8 +48,18 @@ export default {
       activezoomIndex: 0,
       zoomList: [
         {
+          text: '5%',
+          value: 5
+        },{
+          text: '15%',
+          value: 15
+        },
+        {
           text: '25%',
           value: 25
+        },{
+          text: '35%',
+          value: 35
         },
         {
           text: '50%',

@@ -10,14 +10,30 @@
         </div>
       </el-collapse-item>
       <el-collapse-item title="样式设置" name="2">
-        <el-button size="small" @click="()=>this.updateFullPage()">填充背景</el-button>
+        <el-button class="style-item" size="small" @click="()=>this.updateFullPage()">填充背景</el-button>
+        <div class="line-layout style-item">
+          <color-select label="图案颜色" v-model="innerElement.color" @finish="(value) => finish('color', value)" />
+          <color-select label="背景颜色" v-model="innerElement.backgroundColor" @finish="(value) => finish('backgroundColor', value)" />
+        </div>
+        <div id="value-input-select" class="style-item">
+          <span class="label">配色方案</span>
+          <el-select
+            size="mini"
+            v-model="choseTheme"
+            default-first-option
+            placeholder="请选择"
+            @change="selectTheme">
+            <el-option v-for="(item,index) in chosedColors" :key="index" :value="index">
+              图案:<span :style="{background:item[1],color:item[1]}">颜色</span> &nbsp;&nbsp;&nbsp;背景:<span :style="{background:item[0],color:item[0]}">颜色</span>
+            </el-option>
+          </el-select>
+        </div>
         <number-slider 
           class="style-item" 
           label="旋转角度" 
           v-model="innerElement.rotate" 
           :maxValue="360" 
           @finish="(value) => finish('rotate', value)" />
-        <color-select class="style-item" label="背景颜色" v-model="innerElement.backgroundColor" @finish="(value) => finish('backgroundColor', value)" />
         <icon-item-select class="style-item" label="图层层级" :data="layerIconList" @finish="layerAction"/>
         <icon-item-select label="组件对齐" :data="alignIconList" @finish="alignAction"/>
       </el-collapse-item>
@@ -50,6 +66,7 @@ export default {
   name: NAME,
   data () {
     return {
+      choseTheme:null,
       activeNames: ['1', '2', '3', '4'],
       innerElement: {},
       tag: false,
@@ -113,7 +130,8 @@ export default {
           tip: '下对齐',
           value: 'bottom'
         }
-      ]
+      ],
+      chosedColors:[["#002c4a", "#005584"],["#35ac03", "#3f4303"],["#ac0908", "#cd5726"],["#18bbff", "#00486b"]]
     }
   },
   computed: {
@@ -189,6 +207,12 @@ export default {
         align: item.value,
         uuid: this.dActiveElement.uuid
       })
+    },
+    selectTheme(val){
+      let t = this.chosedColors[val]
+      this.innerElement.color = t[1]
+      this.innerElement.backgroundColor = t[0]
+
     }
   }
 }

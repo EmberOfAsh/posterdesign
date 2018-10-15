@@ -39,6 +39,9 @@ export default {
   methods: {
     ...mapActions([]),
     doDraw() {
+      let STAR_COUNT = 40
+      let STAR_SIZE = 10
+      let STAR_SPEED = 200
       // 坐标
       class Crood {
         constructor(x = 0, y = 0) {
@@ -59,8 +62,8 @@ export default {
         constructor(
           init = new Crood(),
           final = new Crood(),
-          size = 3,
-          speed = 200,
+          size = STAR_SIZE,
+          speed = STAR_SPEED,
           onDistory = null
         ) {
           this.init = init; // 初始位置
@@ -150,7 +153,7 @@ export default {
         }
 
         update(delta) {
-          if (!this.stop && this.stars.length < 40) {
+          if (!this.stop && this.stars.length < STAR_COUNT) {
             this.stars.push(this.createStar());
           }
           this.stars.forEach(star => {
