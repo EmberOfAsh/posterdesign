@@ -2,31 +2,18 @@
   <div id="page-design" 
     ref="page-design">
     <div
-      class="out-page"
-      :style="{
-        width: dPage.width * dZoom / 100 + 120 + 'px',
-        height: dPage.height * dZoom / 100 + 120 + 'px',
-        opacity: 1 - (dZoom < 100 ? dPage.tag : 0)
-      }">
+      :class="workMode.mode != 'display'?'out-page':''"
+      :style="getOutPageStyle()">
       <div 
         class="design-canvas"
         :data-type="dPage.type"
         :data-uuid="dPage.uuid"
         :id="pageDesignCanvasId"
-        :style="{
-          width: dPage.width + 'px',
-          height: dPage.height + 'px',
-          transform: 'scale(' + dZoom / 100 + ')',
-          transformOrigin: (dZoom >= 100 ? 'center' : 'left') + ' top',
-          backgroundColor: dPage.backgroundColor,
-          backgroundImage: 'url(\'' + (dPage.backgroundImage ? dPage.backgroundImage : '') + '\')',
-          opacity: dPage.opacity + (dZoom < 100 ? dPage.tag : 0)
-        }">
+        :style="getDesignCanvasStyle()">
         <grid-size />
 
         <component
           :is="layer.type"
-          class="layer"
           :class="getA(layer)"
           :data-title="layer.type"
           v-for="layer in getlayers()"
@@ -86,30 +73,90 @@ export default {
       "dHoverUuid",
       "dSelectWidgets",
       "dAltDown",
-      "animatePlayControl"
+      "animatePlayControl",
+      "workMode"
     ])
   },
   mixins: [move],
   mounted() {
+    let ins = this
     this.getScreen();
-    document
-      .getElementById("page-design")
-      .addEventListener("mousedown", this.handleSelection, true);
+    if(this.workMode.mode != 'display'){
+      document
+        .getElementById("page-design")
+        .addEventListener("mousedown", this.handleSelection, true);
+    }
   },
   beforeDestroy() {},
   methods: {
     ...mapActions(["updateScreen", "selectWidget", "deleteWidget"]),
+    // 获取层相关class
     getA(layer){
       return [
         this.getIsActive(layer.uuid)?'layer-active':'',
         layer.uuid === this.dHoverUuid || this.dActiveElement.parent === layer.uuid?'layer-hover':'',
-        this.getAnimate(layer)]
+        this.getAnimate(layer),this.workMode.mode != 'display'?'layer':'']
     },
     getAnimate(layer){
       if(layer.animates && this.animatePlayControl.play){
         return layer.animates.join(' ')
       }
       return ''
+    },
+    // 获取out-page style定义
+    getOutPageStyle(){
+      let style = {}
+      if(this.workMode.mode != 'display'){
+        style = {
+          width: this.dPage.width * this.dZoom / 100 + 120 + 'px',
+          height: this.dPage.height * this.dZoom / 100 + 120 + 'px',
+          opacity: 1 - (this.dZoom < 100 ? this.dPage.tag : 0)
+        }
+      }else{
+        style = {
+          width: 'auto',
+          height: 'auto',
+        }
+      }
+      return style
+    },
+    getDesignCanvasStyle(){
+      let style = {
+          width: this.dPage.width + 'px',
+          height: this.dPage.height + 'px',
+          backgroundColor: this.dPage.backgroundColor,
+          backgroundImage: 'url(\'' + (this.dPage.backgroundImage ? this.dPage.backgroundImage : '') + '\')',
+          overflow:'hidden'
+      }
+      if(this.workMode.mode != 'display'){
+        style.transform = 'scale(' + this.dZoom / 100 + ')'
+        style.transformOrigin = (this.dZoom >= 100 ? 'center' : 'left') + ' top'
+        style.opacity = this.dPage.opacity + (this.dZoom < 100 ? this.dPage.tag : 0)
+      }
+      else{
+        // 展示模式
+        style.transform = 'scale(' + this.dZoom / 100 + ')'
+        style.transformOrigin = (this.dZoom >= 100 ? 'left' : 'left') + ' top'
+        style.position = 'fixed'
+        style.top = '0px'
+        // 横屏设备,竖屏节目
+        if(!this.screen_h_v() && this.page_h_v(this.dPage)){
+          style.left = '50%'
+          style['marginLeft'] = (this.dZoom / 100 * this.dPage.width / 2 * -1) + 'px'
+        }else
+        // 竖屏设备,横屏节目
+        if(this.screen_h_v() && !this.page_h_v(this.dPage)){
+
+        }
+      }
+      return style
+    },
+    // true: 竖屏, false: 横屏
+    screen_h_v(){
+      return window.screen.height > window.screen.width
+    },
+    page_h_v(dPage){
+      return dPage.height > dPage.width
     },
     getScreen() {
       let screen = this.$refs["page-design"];

@@ -130,6 +130,7 @@ export default {
     }
   },
   mounted () {
+    this.updateWorkMode('display')
     // 初始化激活的控件为page
     this.selectWidget({
       uuid: '-1'
@@ -177,7 +178,8 @@ export default {
       'updateScreen',
       'updatePageSize',
       'clearWidget',
-      'loadPosterTemplate'
+      'loadPosterTemplate',
+      'updateWorkMode'
     ]),
     loadTemplate(){
       let tid = this.$route.params.tid;
@@ -485,7 +487,6 @@ export default {
 <style lang="stylus">
 @import '~STYLUS/page-design-element-ui.styl'
 </style>
-
 <style lang="stylus" scoped>
 @import '~STYLUS/page-design.styl'
 #page-design-index

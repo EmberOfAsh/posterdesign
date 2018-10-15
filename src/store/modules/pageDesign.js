@@ -2,6 +2,9 @@ import serverInfo from '../../config/serverInfo'
 const generate = require('nanoid/generate')
 
 const state = {
+  workMode: {
+    mode: 'edit'// display,edit
+  },
   animatePlayControl: {
     play: true
   },
@@ -167,10 +170,18 @@ const getters = {
   },
   animatePlayControl (state) {
     return state.animatePlayControl
+  },
+  workMode (state) {
+    return state.workMode
   }
 }
 
 const actions = {
+  /** 更新工作状态模式 */
+  updateWorkMode (store, mode) {
+    store.state.workMode.mode = mode
+  },
+
   /** 更新组件 设置其铺满屏幕 */
   updateFullPage (store) {
     let uuid = store.state.dActiveElement.uuid
@@ -213,7 +224,11 @@ const actions = {
       store.dispatch('addWidget', element)
     })
     store.dispatch('unselectWidgets')
-    store.dispatch('updateBestZoom')
+    if (store.state.workMode.mode === 'display') {
+      store.dispatch('updateBestDisplayZoom')
+    } else {
+      store.dispatch('updateBestZoom')
+    }
     store.dispatch('backupPosterTemplateInfo', data)
   },
   /** 取消选中组件 */
@@ -327,6 +342,17 @@ const actions = {
       element = store.state.dWidgets.find(item => item.uuid === uuid)
     }
     store.state.dActiveElement = element
+  },
+  /** 计算最佳展示缩放比例 */
+  updateBestDisplayZoom (store) {
+    let width = window.screen.width || store.state.dScreen.width
+    let height = window.screen.height || store.state.dScreen.height
+    let widthZoom = (width) * 100 / store.state.dPage.width
+    let heightZoom = (height) * 100 / store.state.dPage.height
+
+    let bestZoom = Math.min(widthZoom, heightZoom)
+    store.state.dZoom = bestZoom
+    console.debug('计算最佳缩放比例：', bestZoom)
   },
   updateBestZoom (store) {
     let widthZoom = (store.state.dScreen.width - 142) * 100 / store.state.dPage.width
@@ -563,6 +589,10 @@ const actions = {
   },
   // 选中元件与取消选中
   selectWidget (store, { uuid }) {
+    if (store.state.workMode.mode === 'display') {
+      console.debug('display mode, block select event')
+      return
+    }
     console.debug('select uuid: ', uuid)
     let alt = store.state.dAltDown
     let selectWidgets = store.state.dSelectWidgets
