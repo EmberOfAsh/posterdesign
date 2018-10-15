@@ -129,8 +129,10 @@ export default {
       return !(this.dHistoryParams.index === this.dHistoryParams.length - 1)
     }
   },
-  mounted () {
+  created () {
     this.updateWorkMode('display')
+  },
+  mounted () {
     // 初始化激活的控件为page
     this.selectWidget({
       uuid: '-1'
