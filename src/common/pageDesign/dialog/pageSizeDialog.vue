@@ -58,8 +58,8 @@ export default {
         { type: "竖屏", width: 1080, height: 1920, label: "1080P竖屏" },
         { type: "横屏", width: 2560, height: 1440, label: "2K横屏" },
         { type: "竖屏", width: 1440, height: 2560, label: "2K竖屏" },
-        { type: "横屏", width: 4096, height: 2160, label: "4K横屏" },
-        { type: "竖屏", width: 2160, height: 4096, label: "4K竖屏" }
+        { type: "横屏", width: 3840, height: 2160, label: "3K横屏" },
+        { type: "竖屏", width: 2160, height: 3840, label: "3K竖屏" },
       ],
       inputText: ""
     };

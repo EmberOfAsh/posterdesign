@@ -13,6 +13,7 @@ let service = {
         if (!element.rotate)element.rotate = 0
         if (!element.fontFamily)element.fontFamily = ''
         if (!element.animates)element.animates = []
+        if (!element.shadow)element.shadow = { startColor: 'rgba(255, 255, 255, 1)', endColor: 'rgba(255, 255, 255, 1)', filter: 0 }
       })
       callback(data)
     })

@@ -9,7 +9,7 @@
           <number-input label="高" v-model="innerElement.height" @finish="(value) => finish('height', value)" />
         </div>
       </el-collapse-item>
-      <el-collapse-item title="样式设置" name="2">
+      <el-collapse-item title="圆角设置" name="5">
         <number-slider 
           class="style-item" 
           label="左上圆角" 
@@ -34,6 +34,20 @@
           v-model="innerElement.radiusBottomRight" 
           :maxValue="Math.min(innerElement.record.width, innerElement.record.height)" 
           @finish="(value) => finish('radiusBottomRight', value)" />
+      </el-collapse-item>
+      <el-collapse-item title="模糊效果" name="6">
+         <div class="line-layout style-item">
+          <color-select label="遮罩开始颜色" v-model="innerElement.shadow.startColor" @finish="(value) => finish('shadow.startColor', value)" />
+          <color-select label="遮罩结束颜色" v-model="innerElement.shadow.endColor" @finish="(value) => finish('shadow.endColor', value)" />
+        </div>
+        <number-slider 
+            class="style-item" 
+            label="高斯模糊" 
+            v-model="innerElement.shadow.filter" 
+            :maxValue="50" 
+            @finish="(value) => finish('shadow.filter', value)" />
+      </el-collapse-item>
+      <el-collapse-item title="样式设置" name="2">
         <number-slider 
           class="style-item" 
           label="旋转角度" 

@@ -391,10 +391,16 @@ const actions = {
     console.log('转化比率: ', stepX, stepY)
     let widgets = store.state.dWidgets
     widgets.forEach(widget => {
-      widget.width = widget.width * stepX
-      widget.height = widget.height * stepY
-      widget.top = widget.top * stepY
-      widget.left = widget.left * stepX
+      widget.width = Math.ceil(widget.width * stepX)
+      widget.height = Math.ceil(widget.height * stepY)
+      widget.top = Math.ceil(widget.top * stepY)
+      widget.left = Math.ceil(widget.left * stepX)
+
+      let type = widget.type
+      // 文字按比例缩放
+      if (type === 'w-text' || type === 'word-art') {
+        widget.fontSize = Math.ceil(widget.fontSize * Math.min(stepX, stepY))
+      }
     })
     store.dispatch('updatePageSize', data)
     store.dispatch('pushHistory')

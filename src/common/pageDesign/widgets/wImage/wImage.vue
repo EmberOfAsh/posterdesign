@@ -18,7 +18,9 @@
       borderBottomLeftRadius: params.radiusBottomLeft + 'px',
       borderBottomRightRadius: params.radiusBottomRight + 'px',
       'transform':'rotate('+params.rotate+'deg)',
-      'z-index':params.zIndex
+      'z-index':params.zIndex,
+      '-webkit-mask-image': 'linear-gradient('+maskStartColor+','+maskEndColor+')',
+      'filter':'blur('+params.shadow.filter+'px)'
     }"/>
 </transition>
 </template>
@@ -80,7 +82,19 @@ export default {
   computed: {
     ...mapGetters([
       'dActiveElement'
-    ])
+    ]),
+    maskStartColor(){
+      if(this.params.shadow && this.params.shadow.startColor)
+        return this.params.shadow.startColor
+      
+      return 'rgba(255, 255, 255, 1)'
+    },
+    maskEndColor(){
+      if(this.params.shadow && this.params.shadow.endColor)
+        return this.params.shadow.endColor
+      
+      return 'rgba(255, 255, 255, 1)'
+    }
   },
   methods: {
     ...mapActions([

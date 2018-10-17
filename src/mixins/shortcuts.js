@@ -23,6 +23,7 @@ let hadDown = false
 let shortcuts = {
   methods: {
     handleKeydowm (e) {
+      console.debug(e)
       let nodeName = e.target.nodeName
       if (ignoreNode.indexOf(nodeName) !== -1 || (nodeName === 'DIV' && e.target.contentEditable === 'true')) {
         return
@@ -154,7 +155,8 @@ let shortcuts = {
           }
           break
         case 83: // s
-          // this.save()
+          this.doSave()
+          e.preventDefault()
           break
       }
     }

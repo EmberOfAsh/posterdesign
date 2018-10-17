@@ -7,7 +7,6 @@ const axios = require('axios');
 import PosterInfoService from '../../service/PosterInfoService'
 import 'COMMON/pageDesign/index'
 import wGroup from 'COMMON/pageDesign/widgets/wGroup/wGroup'
-import { shortcuts } from 'MIXINS/shortcuts'
 import html2canvas from 'html2canvas'
 
 import {
@@ -107,7 +106,6 @@ export default {
       publishing: false
     }
   },
-  mixins: [shortcuts],
   computed: {
     ...mapGetters([
       'dHistoryParams',
@@ -481,7 +479,9 @@ export default {
 
       image.src = document.getElementById('cover').src
       this.publishing = false
-    }
+    },
+    /** 保存操作 */
+    doSave (){}
   }
 }
 </script>
