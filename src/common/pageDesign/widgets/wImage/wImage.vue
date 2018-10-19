@@ -66,6 +66,11 @@ export default {
       minWidth: 10,
       minHeight: 10,
       dir: 'all'
+    },
+    shadow: {
+      startColor:'rgba(255, 255, 255, 1)',
+      endColor: 'rgba(255, 255, 255, 1)',
+      filter:0
     }
   },
   props: ['params', 'parent'],

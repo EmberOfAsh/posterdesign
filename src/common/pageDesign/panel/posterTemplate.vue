@@ -49,6 +49,11 @@ export default {
     this.loadTemplate();
     //this.loadAlbum();
   },
+  computed: {
+    ...mapGetters([
+      'posterTemplateInfo'
+    ]),
+  },
   watch: {
     activeTab(value) {
       if (value === 0) {
@@ -64,21 +69,6 @@ export default {
       return {
         display: this.activeTab === index ? "" : "none"
       };
-    },
-    selectImg(item) {
-       if(item.value.contentType == 'image/svg+xml'){
-        let setting = JSON.parse(JSON.stringify(wSvg.setting));
-        setting.width = 400;
-        setting.height = parseInt(setting.width / item.value.ratio);
-        setting.imgUrl = item.value.rawUrl;
-        this.addWidget(setting);
-        return
-      }
-      let setting = JSON.parse(JSON.stringify(wImage.setting));
-      setting.width = 100;
-      setting.height = parseInt(100 / item.value.ratio);
-      setting.imgUrl = item.value.url;
-      this.addWidget(setting);
     },
     deleteImg(item) {
       //
@@ -113,8 +103,21 @@ export default {
       this.loadTemplate();
     },
     selectTemplate(item) {
-      let url = '/poster/posterinfo/'+item.value.templateId;
-      PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+      if(this.posterTemplateInfo.title){
+        this.$confirm('已存在正在编辑的海报?如何操作', '提示', {
+          confirmButtonText: '覆盖当前',
+          cancelButtonText: '新页面打开',
+          type: 'warning'
+        }).then(() => {
+          let url = '/edit/'+item.value.templateId
+          window.open(url,'_self')
+        }).catch(()=>{
+          let url = '/edit/'+item.value.templateId
+          window.open(url)
+        })
+      }else{
+        PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+       }
     }
   }
 };

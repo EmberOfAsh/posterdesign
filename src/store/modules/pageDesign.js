@@ -200,7 +200,7 @@ const actions = {
     let widgets = JSON.parse(JSON.stringify(store.state.dWidgets))
     // 替换图片相对路径
     widgets.forEach(ele => {
-      if (ele.type === 'w-image' || ele.type === 'w-svg') {
+      if (ele.type === 'w-image' || ele.type === 'w-svg' || ele.type === 'w-video') {
         console.debug('replace: ', serverInfo.uploadServer)
         ele.imgUrl = ele.imgUrl.split(serverInfo.uploadServer).join('')
         console.log(ele.imgUrl)
@@ -530,7 +530,7 @@ const actions = {
   clearWidget (store) {
     store.state.dWidgets = []
     store.state.dActiveElement = store.state.dPage
-
+    store.state.posterTemplateInfo = {}
     store.dispatch('pushHistory')
     store.dispatch('reChangeCanvas')
   },

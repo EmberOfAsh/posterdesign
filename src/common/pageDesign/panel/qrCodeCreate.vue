@@ -148,7 +148,7 @@ export default {
   }
 };
 </script>
-<style>
+<style >
 .black .el-form-item__label {
   color: white;
 }

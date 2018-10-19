@@ -7,6 +7,7 @@
     :logoSrc="params.qrData.logoSrc"
     :logoMargin="params.qrData.logoMargin"
     :colorDark="params.qrData.colorDark"
+    :bgSrc="params.qrData.bgSrc"
     :style="{
       position: 'absolute',
       left: (params.left - parent.left) + 'px',
