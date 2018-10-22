@@ -547,7 +547,7 @@ export default {
             })
           }).catch(err => {
             this.publishing = false
-            if (!err.code === -2) {
+            if (err.code !== -2) {
               this.saveError(err.msg)
             }
           })

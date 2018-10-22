@@ -88,91 +88,91 @@ export default {
         {
           id: 1,
           url: require("../../../assets/svg/sharpe- (1).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 2,
           url: require("../../../assets/svg/sharpe- (2).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 3,
           url: require("../../../assets/svg/sharpe- (3).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 4,
           url: require("../../../assets/svg/sharpe- (4).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 5,
           url: require("../../../assets/svg/sharpe- (5).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 6,
           url: require("../../../assets/svg/sharpe- (6).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id:7,
           url: require("../../../assets/svg/sharpe- (7).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 8,
           url: require("../../../assets/svg/sharpe- (8).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 9,
           url: require("../../../assets/svg/sharpe- (9).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 10,
           url: require("../../../assets/svg/sharpe- (10).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 11,
           url: require("../../../assets/svg/sharpe- (11).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 12,
           url: require("../../../assets/svg/sharpe- (12).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 13,
           url: require("../../../assets/svg/sharpe- (13).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 14,
           url: require("../../../assets/svg/sharpe- (14).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 15,
           url: require("../../../assets/svg/sharpe- (15).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 16,
           url: require("../../../assets/svg/sharpe- (16).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 17,
           url: require("../../../assets/svg/sharpe- (17).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 18,
           url: require("../../../assets/svg/sharpe- (18).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 19,
           url: require("../../../assets/svg/sharpe- (19).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 20,
           url: require("../../../assets/svg/sharpe- (20).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 21,
           url: require("../../../assets/svg/sharpe- (21).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         },{
           id: 22,
           url: require("../../../assets/svg/sharpe- (22).svg"),
-          ratio: 1000 / 1000
+          ratio: 1
         }
       ]
     }

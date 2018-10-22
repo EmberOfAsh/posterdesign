@@ -136,7 +136,7 @@ export default {
       else{
         // 展示模式
         style.transform = 'scale(' + this.dZoom / 100 + ')'
-        style.transformOrigin = (this.dZoom >= 100 ? 'left' : 'left') + ' top'
+        style.transformOrigin = 'left top' // (this.dZoom >= 100 ? 'left' : 'left') + ' top'
         style.position = 'fixed'
         style.top = '0px'
         // 横屏设备,竖屏节目

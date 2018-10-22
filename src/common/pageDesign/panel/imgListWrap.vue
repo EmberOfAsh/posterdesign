@@ -42,32 +42,32 @@ export default {
         {
           id: 1,
           url: require("../../../assets/images/empty_img.png"),
-          ratio: 1000 / 1000
+          ratio: 1
         },
         {
           id: 2,
           url: require("../../../assets/images/empty_icon.png"),
-          ratio: 500 / 500
+          ratio: 1
         },
         {
           id: 3,
           url: require("../../../assets/images/empty_icon.jpg"),
-          ratio: 500 / 500
+          ratio: 1
         },
         {
           id: 4,
           url: require("../../../assets/svg/duobianxing.svg"),
-          ratio: 500 / 500
+          ratio: 1
         },
         {
           id: 4,
           url: require("../../../assets/images/little_star.png"),
-          ratio: 100 / 100
+          ratio: 1
         },
         {
           id: 5,
           url: require("../../../assets/images/little_grass.png"),
-          ratio: 100 / 100
+          ratio: 1
         },
         {
           id: 6,
@@ -77,17 +77,17 @@ export default {
         {
           id: 7,
           url: require("../../../assets/images/under_line.png"),
-          ratio: 500 / 100
+          ratio: 5
         },
         {
           id: 8,
           url: require("../../../assets/images/20180831-144716-542b.png"),
-          ratio: 100 / 100
+          ratio: 1
         },
         {
           id: 9,
           url: require("../../../assets/images/20180831-144716-af9b.png"),
-          ratio: 100 / 100
+          ratio: 1
         },
         {
           id: 10,
@@ -166,7 +166,7 @@ export default {
           id: 12,
           url:
             "http://bearcarimg.codebear.cn/d74e089543afe11a3945c6cd06130b463skAwou9VRH4DpDcMKfEuo!gradual.show",
-          ratio: 98 / 98
+          ratio: 1
         },
         {
           id: 13,

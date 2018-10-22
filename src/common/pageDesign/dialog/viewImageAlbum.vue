@@ -329,14 +329,6 @@ export default {
     card_leave(it) {
       it.showtoolbar = false;
     },
-    chose(tp) {
-      tp.chose = !tp.chose;
-      if (tp.chose) {
-        this.choseResource.push(tp);
-      } else {
-        this.choseResource = this.choseResource.filter(item => item.chose);
-      }
-    },
     close() {
       this.$emit("close", this.choseResource);
       this.visiable = false;
