@@ -32,4 +32,27 @@ function calcFontWidths (max) {
   return ay
 }
 
-export default { getWidgetRoot, rgb2hex, calcFontWidths }
+function FormatInputData (data) {
+  function next (obj, chi) {
+    if (chi) {
+      let ay = []
+      chi.forEach(v => {
+        let o = v.data
+        ay.push(o)
+        next(o, v.children)
+      })
+      obj.children = ay
+    } else {
+    }
+  }
+
+  let ret = []
+  data.map((v) => {
+    let obj = v.data
+    ret.push(obj)
+    next(obj, v.children)
+  })
+  return ret
+}
+
+export default { getWidgetRoot, rgb2hex, calcFontWidths, FormatInputData }

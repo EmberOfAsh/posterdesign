@@ -6,32 +6,40 @@
           <i class="el-icon-mobile-phone"></i>
         </div>
         <div class="top-title">
-          pageDesign
+          {{posterTemplateInfo.title}}
         </div>
         <div class="top-icon-wrap">
+          <!--
           <el-button-group>
-            <el-button @click="savePoster">保存</el-button>
+            <el-button @click="beginSavePoster">保存</el-button>
             <el-button @click="savePosterAs">另存为</el-button>
           </el-button-group>
-          <el-button-group>
+          -->
+          <!--<el-button-group>
             <el-button icon="el-icon-edit" @click="updatePageSizeDialog({display:true})">更改尺寸</el-button>
-            <!--
+            
             <el-button @click="changeHV('h')">横屏</el-button>
             <el-button @click="changeHV('v')">竖屏</el-button>
-            -->
+            
           </el-button-group>
-          <div class="top-icon" @click="newPoster">
-            <i class="iconfont icon-empty"></i>
-            清空
+          -->
+          <div class="top-icon" @click="updatePageSizeDialog({display:true})">
+            <i class="iconfont icon-screen-size"></i>
+            尺寸修改
           </div>
+          <div class="top-icon" @click="newPoster">
+            <i class="iconfont icon-delete"></i>
+            清空内容
+          </div>
+          <!--
           <div class="top-icon" @click="save">
             <i class="iconfont icon-publish"></i>
             发布
           </div>
-
-          <div class="top-icon" @click="save">
+          -->
+          <div class="top-icon" @click="beginSavePoster">
             <i class="iconfont icon-save"></i>
-            保存
+            保存模板
           </div>
         </div>
       </div>
@@ -131,11 +139,54 @@
     <div class="fill-info-wrap" v-if="fillInfoing">
       <div class="fill-info-content" v-loading="publishing">
         <el-steps :active="active[fillStep]" finish-status="success" align-center>
-          <el-step :title="message['1']"></el-step>
-          <!-- <el-step :title="message['2']"></el-step>
-          <el-step :title="message['3']"></el-step> -->
+          <template v-for="m in message">
+            <el-step :key="m" :title="m"></el-step>
+          </template>
         </el-steps>
-        <div class="fill-info-step" v-if="fillStep === 1" v-loading="true">
+        <div class="fill-info-step" v-if="fillStep === 1" >
+          <el-form ref="form" :model="posterTemplateInfo" label-width="80px" size="small">
+            <el-form-item label="模板名称">
+              <el-col :span="10">
+              <el-input v-model="posterTemplateInfo.title"></el-input>
+              </el-col>
+            </el-form-item>
+            <el-form-item label="模板尺寸">
+                <el-col :span="5">
+                  <el-input v-model="posterTemplateInfo.width" placeholder=""></el-input>
+                </el-col>
+                <el-col class="line" :span="1" style="text-align: center;"> × </el-col>
+                <el-col :span="5">
+                    <el-input v-model="posterTemplateInfo.height" placeholder=""></el-input>
+                </el-col>
+            </el-form-item>
+            <el-form-item label="尺寸信息">
+              <el-radio-group v-model="posterTemplateInfo.sizeType" >
+                <template v-for="ps in posterSizes">
+                  <el-radio-button :key="ps.id" :label="ps.id">{{ps.tag}}</el-radio-button>
+                </template>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="分类信息">
+              <el-tree
+                :data="categoryTree"
+                show-checkbox
+                node-key="categoryId"
+                ref="categoryTree"
+                highlight-current
+                :default-checked-keys="posterTemplateInfo.useCategorys"
+                :props="{
+                  children: 'children',
+                  label: 'name'
+                }">
+                </el-tree>
+            </el-form-item>
+            <el-form-item >
+              <el-button type="primary" @click="baseInfoNextStep()">下一步</el-button>
+              <el-button @click="closePublish()">取 消</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="fill-info-step" v-if="fillStep === 2" v-loading="true" >
         </div>
         <!-- <div class="fill-info-step" v-show="fillStep === 2 || fillStep === 3">
           <div id="cover-wrap">
@@ -150,17 +201,20 @@
             关闭
           </div>
         </div> -->
-        <div class="fill-info-step" v-show="fillStep === 2 || fillStep === 3">
+        <div class="fill-info-step" v-show="fillStep === 3" v-loading="true">
           <div id="cover-wrap">
-            <img id="cover" />
+            <canvas id="cover"></canvas>
           </div>
-          <div class="publish-btn" @click="saveImg">
-            <span v-show="!publishing">保存图片</span>
+          <div class="publish-btn" @click="savePosterAs">
+            <span v-show="!publishing">保存模板</span>
             <i class="el-icon-loading" v-show="publishing"></i>
           </div>
           <div class="close-publish" @click="closePublish">
             关闭
           </div>
+        </div>
+        <div class="fill-info-step" v-show="fillStep === 4">
+
         </div>
       </div>
     </div>
@@ -177,7 +231,9 @@ const axios = require('axios');
 import PosterInfoService from '../../service/PosterInfoService'
 import 'COMMON/pageDesign/index'
 import wGroup from 'COMMON/pageDesign/widgets/wGroup/wGroup'
-import { shortcuts } from 'MIXINS/shortcuts'
+import {
+  shortcuts
+} from 'MIXINS/shortcuts'
 import html2canvas from 'html2canvas'
 import {
   mapGetters,
@@ -186,13 +242,12 @@ import {
 import domUtil from '../../util/domUtil';
 export default {
   name: 'page-design-index',
-  data () {
+  data() {
     return {
       style: {
         left: '0px'
       },
-      gridSizeList: [
-        {
+      gridSizeList: [{
           width: 0,
           height: 0,
           value: '无'
@@ -231,8 +286,7 @@ export default {
         top: 0,
         list: []
       },
-      widgetMenu: [
-        {
+      widgetMenu: [{
           type: 'copy',
           text: '复制'
         },
@@ -253,27 +307,29 @@ export default {
           text: '删除'
         }
       ],
-      pageMenu: [
-        {
-          type: 'paste',
-          text: '粘贴'
-        }
-      ],
+      pageMenu: [{
+        type: 'paste',
+        text: '粘贴'
+      }],
       fillInfoing: false,
       message: {
-        '1': '生成封面图',
-        '2': '填写模板信息',
-        '3': '发布模板'
+        '1': '填写模板信息',
+        '2': '生成封面',
+        '3': '预览封面',
+        '4': '发布模板'
       },
       active: {
         '1': 0,
-        '2': 1,
-        '3': 2
+        '2': 2,
+        '3': 3,
+        '4': 4
       },
       fillStep: 1,
       formParams: {},
       title: '',
-      publishing: false
+      publishing: false,
+      posterSizes: [],
+      categoryTree:[],
     }
   },
   mixins: [shortcuts],
@@ -286,12 +342,13 @@ export default {
       'dPage',
       'dAltDown',
       'dWidgets',
-      'dZoom' ,
+      'dZoom',
       'viewImageDialog',
       'editTextDialog',
       'viewImageAlbum',
       'posterTemplateInfo',
-      'pageSizeDialog'
+      'pageSizeDialog',
+      'workMode'
     ]),
     undoable() {
       return !(this.dHistoryParams.index === -1 || (this.dHistoryParams === 0 && this.dHistoryParams.length === 10))
@@ -300,7 +357,10 @@ export default {
       return !(this.dHistoryParams.index === this.dHistoryParams.length - 1)
     }
   },
-  mounted () {
+  created () {
+    this.setWorkMode()
+  },
+  mounted() {
     // 初始化激活的控件为page
     this.selectWidget({
       uuid: '-1'
@@ -313,8 +373,10 @@ export default {
     document.oncontextmenu = this.mouseRightClick
 
     this.loadTemplate();
+    this.loadPosterSize()
+    this.loadCategory()
   },
-  beforeDestroy () {
+  beforeDestroy() {
     window.removeEventListener('scroll', this.fixTopBarScroll)
     window.removeEventListener('click', this.clickListener)
     document.removeEventListener('keydown', this.handleKeydowm, false)
@@ -322,12 +384,17 @@ export default {
     document.oncontextmenu = null
   },
   watch: {
-    gridSizeIndex (index) {
+    gridSizeIndex(index) {
       this.updateGridSize({
         width: this.gridSizeList[index].width,
         height: this.gridSizeList[index].height
       })
-    }
+    },
+    '$route' (to, from) {
+      console.log('路由内容变更: ', to, this.$route)
+      this.setWorkMode()
+      this.loadTemplate()
+    },
   },
   methods: {
     ...mapActions([
@@ -350,37 +417,48 @@ export default {
       'clearWidget',
       'loadPosterTemplate',
       'updatePosterTemplateInfo',
-      'updatePageSizeDialog'
+      'updatePageSizeDialog',
+      'updateWorkMode'
     ]),
-    loadTemplate(){
-      let tid = this.$route.params.tid;
-      if(tid){
-        console.log('加载模版id:',tid);
-        PosterInfoService.loadPosterTemplate(this.$http,tid,this.loadPosterTemplate)
-      }else{
-      }
+    setWorkMode(){
+      let type = this.$route.name
+      this.updateWorkMode(type)
+      console.debug('工作模式: ',type)
     },
-    newPoster () {
+    loadTemplate() {
+      let tid = this.$route.params.tid;
+      if (tid) {
+        console.log('加载模版id:', tid);
+        PosterInfoService.loadPosterTemplate(this.$http, tid, this.loadPosterTemplate)
+      } else {}
+    },
+    newPoster() {
       this.clearWidget()
     },
     /*更改横屏/竖屏*/
-    changeHV(type){
-      console.log('更改屏幕类型: ',type);
-      if(type == 'h'){
-          this.updatePageSize({width:1920, height:1080});
-      }else{
+    changeHV(type) {
+      console.log('更改屏幕类型: ', type);
+      if (type == 'h') {
+        this.updatePageSize({
+          width: 1920,
+          height: 1080
+        });
+      } else {
         //v
-        this.updatePageSize({width:1080, height:1920});
+        this.updatePageSize({
+          width: 1080,
+          height: 1920
+        });
       }
     },
-    fixTopBarScroll () {
+    fixTopBarScroll() {
       const scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft
       this.style.left = `-${scrollLeft}px`
     },
-    clickListener (e) {
+    clickListener(e) {
       this.showGridSizeList = false
     },
-    handle (action) {
+    handle(action) {
       switch (action) {
         case 'undo':
         case 'redo':
@@ -397,7 +475,7 @@ export default {
           break
       }
     },
-    mouseRightClick (e) {
+    mouseRightClick(e) {
       e.stopPropagation()
       e.preventDefault()
       if (this.showMenuBg) {
@@ -407,7 +485,7 @@ export default {
       let target = domUtil.getWidgetRoot(e.target) || e.target
       let type = target.getAttribute('data-type')
       if (type) {
-        let uuid = target.getAttribute('data-uuid')// 设置选中元素
+        let uuid = target.getAttribute('data-uuid') // 设置选中元素
 
         if (uuid !== '-1' && !this.dAltDown) {
           let widget = this.dWidgets.find(item => item.uuid === uuid)
@@ -421,7 +499,7 @@ export default {
         this.showMenu(e)
       }
     },
-    showMenu (e) {
+    showMenu(e) {
       let isPage = this.dActiveElement.uuid === '-1'
       this.menuList.list = isPage ? this.pageMenu : this.widgetMenu
       if (this.dActiveElement.isContainer) {
@@ -446,11 +524,11 @@ export default {
       this.menuList.left = mx
       this.menuList.top = my
     },
-    closeMenu () {
+    closeMenu() {
       this.showMenuBg = false
       document.getElementById('menu-bg').removeEventListener('click', this.closeMenu, false)
     },
-    selectMenu (type) {
+    selectMenu(type) {
       switch (type) {
         case 'copy':
           this.copyWidget()
@@ -479,43 +557,11 @@ export default {
           this.deleteWidget()
           break
         case 'ungroup':
-        this.ungroup(this.dActiveElement.uuid)
+          this.ungroup(this.dActiveElement.uuid)
           break
       }
     },
-    // save () {
-    //   this.fillStep = 1
-    //   this.fillInfoing = true
-    //   let nowGrideSizeIndex = this.gridSizeIndex
-    //   let nowZoom = this.dZoom
-    //   // 取消选中元素
-    //   this.selectWidget({
-    //     uuid: '-1'
-    //   })
-    //   this.gridSizeIndex = 0
-    //   this.updateZoom(100)
-    //   this.getQiniuToken().then((data) => {
-    //     let opts = {
-    //       useCORS: true, // 跨域图片
-    //     }
-    //     html2canvas(document.getElementById('page-design-canvas'), opts).then((canvas) => {
-    //       canvas.toBlob((blob) => {
-    //         this.blobToImage(blob, data => {
-    //           document.getElementById('cover').src = data
-    //         })
-
-    //         this.fillStep = 2
-    //         this.gridSizeIndex = nowGrideSizeIndex
-    //         this.updateZoom(nowZoom)
-
-    //         this.formParams = new FormData()
-    //         this.formParams.append('token', data.token)
-    //         this.formParams.append('file', blob, 'canvas.png')
-    //       }, 'image/png')
-    //     })
-    //   }).catch(err => this.saveError(err.msg))
-    // },
-    publish () {
+    publish() {
       if (this.publishing) {
         return
       }
@@ -554,12 +600,12 @@ export default {
         })
       }).catch(err => this.saveError(err.msg))
     },
-    closePublish () {
+    closePublish() {
       this.publishing = false
       this.fillInfoing = false
       this.fillStep = 1
     },
-    saveError (message) {
+    saveError(message) {
       this.publishing = false
       this.fillInfoing = false
       this.fillStep = 1
@@ -569,19 +615,19 @@ export default {
         type: 'error'
       })
     },
-    fileOrBlobToDataURL (obj, cb) {
+    fileOrBlobToDataURL(obj, cb) {
       let a = new FileReader()
       a.readAsDataURL(obj)
       a.onload = e => {
         cb(e.target.result)
       }
     },
-    blobToImage (blob, cb){
+    blobToImage(blob, cb) {
       this.fileOrBlobToDataURL(blob, dataurl => {
         cb(dataurl)
       })
     },
-    save () {
+    save() {
       this.fillStep = 1
       this.fillInfoing = true
       let nowGrideSizeIndex = this.gridSizeIndex
@@ -596,25 +642,50 @@ export default {
         useCORS: true, // 跨域图片
       }
       let _this = this
-      setTimeout(function() {
+      setTimeout(function () {
         html2canvas(document.getElementById('page-design-canvas'), opts).then((canvas) => {
           console.debug(canvas)
 
           canvas.toBlob((blob) => {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              var data = e.target.result;
+              // 加载图片获取图片真实宽度和高度
+              var image = new Image();
+              image.onload = function () {
+                let info = {}
+                var width = image.width;
+                var height = image.height;
+                info.width = width;
+                info.height = height;
+                console.log('read image size: ', info)
+                var canvas = document.getElementById("cover");
+                var context = canvas.getContext('2d');
+                canvas.width = 200;
+                canvas.height = 300;
+                // 缩放
+                context.drawImage(image,0,0,200,300);
+                console.debug(canvas.toDataURL())
+              };
+              image.src = data;
+            };
+            reader.readAsDataURL(blob);
+            /*
             _this.blobToImage(blob, data => {
               document.getElementById('cover').src = data
             })
+            */
 
             _this.fillStep = 2
             _this.gridSizeIndex = nowGrideSizeIndex
             _this.updateZoom(nowZoom)
 
-          }, 'image/png',0.5)
+          }, 'image/png', 0.5)
         })
       }, 500)
-      console.log('save',JSON.stringify( this.dWidgets))
+      console.log('save', JSON.stringify(this.dWidgets))
     },
-    saveImg () {
+    saveImg() {
       if (this.publishing) {
         return
       }
@@ -623,29 +694,115 @@ export default {
       // 解决跨域 Canvas 污染问题
       image.setAttribute('crossOrigin', 'anonymous')
       image.onload = function () {
-          let canvas = document.createElement('canvas')
-          canvas.width = image.width
-          canvas.height = image.height
+        let canvas = document.createElement('canvas')
+        canvas.width = image.width
+        canvas.height = image.height
 
-          let context = canvas.getContext('2d')
-          context.drawImage(image, 0, 0, image.width, image.height)
-          let url = canvas.toDataURL('image/png')
+        let context = canvas.getContext('2d')
+        context.drawImage(image, 0, 0, image.width, image.height)
+        let url = canvas.toDataURL('image/png')
 
-          let a = document.createElement('a')
-          let event = new MouseEvent('click')
+        let a = document.createElement('a')
+        let event = new MouseEvent('click')
 
-          // 将a的download属性设置为我们想要下载的图片名称，若name不存在则使用‘下载图片名称’作为默认名称
-          a.download = name || 'pageDesign'
-          a.href = url
+        // 将a的download属性设置为我们想要下载的图片名称，若name不存在则使用‘下载图片名称’作为默认名称
+        a.download = name || 'pageDesign'
+        a.href = url
 
-          // 触发a的单击事件
-          a.dispatchEvent(event)
+        // 触发a的单击事件
+        a.dispatchEvent(event)
       }
 
       image.src = document.getElementById('cover').src
       this.publishing = false
     },
-    /**保存海报 **/
+    /**开始保存 */
+    beginSavePoster(){
+      console.debug('开始保存')
+      let templateId = this.posterTemplateInfo.templateId
+      //根据是否有模板id 判断是否是新增
+      if(!templateId){
+        console.debug('新增模板,调用基础信息填写')
+        this.baseInfoInput()
+      }else{
+        console.debug('已有模板:',templateId,'  workmode:',this.workMode.mode)
+        if(this.workMode.mode === 'edit'){
+          this.savePoster()
+        }else if(this.workMode.mode === 'newFromTemplate'){
+          console.debug('新创建模板')
+          this.baseInfoInput()
+        }
+      }
+    },
+    /**基础信息输入 */
+    baseInfoInput(){
+      this.fillStep = 1
+      this.fillInfoing = true
+      //填写尺寸
+      this.posterTemplateInfo.width =  this.dPage.width
+      this.posterTemplateInfo.height =  this.dPage.height
+      if(!this.posterTemplateInfo.title) this.posterTemplateInfo.title = '新创建海报'
+      let size = this.posterSizes.find(ele => ele.width == this.dPage.width && ele.height == this.dPage.height)
+      if(size){
+        this.posterTemplateInfo.sizeType = size.id
+      }
+    },
+    /**填写完基础信息的下一步操作 */
+    baseInfoNextStep(){
+      this.posterTemplateInfo.useCategorys = this.$refs.categoryTree.getCheckedKeys()
+
+      this.fillStep = 2
+      this.fillInfoing = true
+      let nowGrideSizeIndex = this.gridSizeIndex
+      let nowZoom = this.dZoom
+      // 取消选中元素
+      this.selectWidget({
+        uuid: '-1'
+      })
+      this.gridSizeIndex = 0
+      this.updateZoom(100)
+      let opts = {
+        useCORS: true, // 跨域图片
+      }
+      let _this = this
+      setTimeout(function () {
+        html2canvas(document.getElementById('page-design-canvas'), opts).then((canvas) => {
+          console.debug(canvas)
+
+          canvas.toBlob((blob) => {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              var data = e.target.result;
+              // 加载图片获取图片真实宽度和高度
+              var image = new Image();
+              image.onload = function () {
+                var width = image.width;
+                var height = image.height;
+                var canvas = document.getElementById("cover");
+                var context = canvas.getContext('2d');
+                let z = Math.max(width / 400 , height / 400)
+                let nw = width / z
+                let nh = height / z
+                canvas.width = nw
+                canvas.height = nh
+
+                console.log('图片缩放:',width,height,' -> ',nw,nh)
+                // 缩放
+                context.drawImage(image,0,0,nw,nh);
+                console.debug(canvas.toDataURL())
+              };
+              image.src = data;
+            };
+            reader.readAsDataURL(blob);
+            _this.fillStep = 3
+            _this.gridSizeIndex = nowGrideSizeIndex
+            _this.updateZoom(nowZoom)
+
+          }, 'image/png', 0.5)
+        })
+      }, 500)
+    },
+    /**更新海报 **/
     savePoster() {
       this.updatePosterTemplateInfo()
       console.debug(this.posterTemplateInfo)
@@ -655,12 +812,33 @@ export default {
     savePosterAs() {
       this.updatePosterTemplateInfo()
       console.debug(this.posterTemplateInfo)
-      PosterInfoService.savePosterInfo(this.$http, this.posterTemplateInfo)
+      PosterInfoService.savePosterInfo(this.$http, this.posterTemplateInfo, (data)=>{
+        this.closePublish()
+        let stid = data.templateId
+        this.$router.push({path:'/edit/'+stid});
+        this.posterTemplateInfo.templateId = stid
+        this.updateWorkMode('edit')
+        console.debug('新增海报保存成功, id: ',stid,' 更改工作模式为edit')
+      })
     },
     /** 保存操作 */
-    doSave (){
-      this.savePoster()
-    }
+    doSave() {
+      this.beginSavePoster()
+    },
+    loadPosterSize() {
+      let url = '/poster/postersize/search';
+      let data = {}
+      this.$http.post(url, data).then(result => {
+       this.posterSizes = result.data.data
+      })
+    },
+    loadCategory() {
+      let url = '/poster/category/0'
+      this.$http.get(url).then(result => {
+       let data = result.data
+       this.categoryTree = domUtil.FormatInputData(data.treeData)
+      })
+    },
   }
 }
 </script>
@@ -671,6 +849,9 @@ export default {
 
 <style lang="stylus" scoped>
 @import '~STYLUS/page-design.styl'
+.fill-info-step{
+  padding:10px;
+}
 #page-design-index
   width: 100%
   min-width: 1180px

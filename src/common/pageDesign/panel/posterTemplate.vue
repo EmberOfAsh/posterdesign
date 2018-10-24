@@ -103,14 +103,15 @@ export default {
       this.loadTemplate();
     },
     selectTemplate(item) {
-      if(this.posterTemplateInfo.title){
+      if(this.posterTemplateInfo.layouts){
         this.$confirm('已存在正在编辑的海报?如何操作', '提示', {
           confirmButtonText: '覆盖当前',
           cancelButtonText: '新页面打开',
           type: 'warning'
         }).then(() => {
-          let url = '/edit/'+item.value.templateId
-          window.open(url,'_self')
+          //let url = '/edit/'+item.value.templateId
+          //window.open(url,'_self')
+          this.$router.push({path:'/from/'+item.value.templateId});
         }).catch(()=>{
           let url = '/edit/'+item.value.templateId
           window.open(url)

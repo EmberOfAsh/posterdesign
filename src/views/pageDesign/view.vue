@@ -128,7 +128,9 @@ export default {
     }
   },
   created () {
-    this.updateWorkMode('display')
+    let type = this.$route.name
+    this.updateWorkMode(type)
+    console.debug('工作模式: ',type)
   },
   mounted () {
     // 初始化激活的控件为page

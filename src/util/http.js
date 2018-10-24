@@ -33,8 +33,9 @@ export default (Message) => {
     return Promise.resolve(res)
   }, error => {
     Message.error({
-      message: error
+      message: '请求失败'
     })
+    console.error(error)
     return Promise.reject(error)
   })
   return axios

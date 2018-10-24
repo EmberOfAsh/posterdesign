@@ -31,7 +31,7 @@ let service = {
     })
   },
   /** 保存模版数据  */
-  savePosterInfo ($http, data) {
+  savePosterInfo ($http, data, callback) {
     let url = '/poster/posterinfo'
     $http.post(url, data).then(response => {
       if (response.data.status) {
@@ -39,9 +39,10 @@ let service = {
           message: response.data.msg
         })
       }
+      if (callback) callback(response.data)
     })
   },
-  updatePosterInfo ($http, data) {
+  updatePosterInfo ($http, data, callback) {
     let url = '/poster/posterinfo'
     $http.put(url, data).then(response => {
       if (response.data.status) {
@@ -49,6 +50,7 @@ let service = {
           message: response.data.msg
         })
       }
+      if (callback) callback(response.data)
     })
   }
 

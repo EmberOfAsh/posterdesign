@@ -24,8 +24,8 @@ export default {
   min-width: 1180px
   .viewWrap
     background-color: $color-white
-    min-height: calc(110vh - 110px)
-    min-width: 1170px
+    /*min-height: calc(110vh - 110px)
+    min-width: 1170px*/
 .fade-enter-active, .fade-leave-active
   transition: opacity .3s
 .fade-enter, .fade-leave-to

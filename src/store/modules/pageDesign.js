@@ -3,7 +3,7 @@ const generate = require('nanoid/generate')
 
 const state = {
   workMode: {
-    mode: 'edit'// display,edit
+    mode: 'edit'// display, new, newFromTemplate
   },
   animatePlayControl: {
     play: true
@@ -12,6 +12,7 @@ const state = {
     display: false
   },
   posterTemplateInfo: {
+    title: '新创建海报'
   },
   viewImageAlbum: {
     display: false
