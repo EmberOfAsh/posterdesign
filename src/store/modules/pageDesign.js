@@ -473,6 +473,9 @@ const actions = {
   },
   addWidget (store, setting) {
     if (!setting.uuid || setting.uuid === -1) setting.uuid = generate('1234567890abcdef', 12)
+    // 额外属性补足
+    if (setting.display !== false) setting.display = true
+
     store.state.dWidgets.push(setting)
     let len = store.state.dWidgets.length
     store.state.dActiveElement = store.state.dWidgets[len - 1]
@@ -548,7 +551,7 @@ const actions = {
   clearWidget (store) {
     store.state.dWidgets = []
     store.state.dActiveElement = store.state.dPage
-    store.state.posterTemplateInfo = {}
+    store.state.posterTemplateInfo = {title: '新创建海报'}
     store.dispatch('pushHistory')
     store.dispatch('reChangeCanvas')
   },

@@ -132,6 +132,8 @@ export default {
             }else{
               PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
             }
+          }else{
+            PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
           }
         }).catch(()=>{
           let url = '/from/'+item.value.templateId

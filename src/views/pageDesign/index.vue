@@ -374,6 +374,19 @@ export default {
     this.loadTemplate();
     this.loadPosterSize()
     this.loadCategory()
+
+    let ins = this;
+    //页面刷新或关闭提示
+    window.onbeforeunload = function (event) {
+      //检测是否有未保存属性
+      let a = JSON.stringify(ins.posterTemplateInfo.layouts || [] )
+      let b = JSON.stringify(ins.dWidgets)
+      if(a != b) {
+        console.debug('提示 有未保存的内容')
+        return '有未保存的内容'
+      }
+      return false
+    }
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.fixTopBarScroll)
@@ -393,6 +406,9 @@ export default {
       console.log('路由内容变更: ', to, this.$route)
       this.setWorkMode()
       this.loadTemplate()
+    },
+    'posterTemplateInfo.title' (val) {
+      window.document.title = val
     },
   },
   methods: {
@@ -430,7 +446,9 @@ export default {
       if (tid) {
         console.log('加载模版id:', tid);
         PosterInfoService.loadPosterTemplate(this.$http, tid, this.loadPosterTemplate)
-      } else {}
+      } else {
+        window.document.title = this.posterTemplateInfo.title
+      }
     },
     newPoster() {
       this.clearWidget()
