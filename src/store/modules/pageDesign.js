@@ -3,7 +3,8 @@ const generate = require('nanoid/generate')
 
 const state = {
   workMode: {
-    mode: 'edit'// display, new, newFromTemplate
+    mode: 'edit', // display, new, newFromTemplate
+    templateId: ''
   },
   animatePlayControl: {
     play: true
@@ -179,8 +180,9 @@ const getters = {
 
 const actions = {
   /** 更新工作状态模式 */
-  updateWorkMode (store, mode) {
+  updateWorkMode (store, {mode, templateId}) {
     store.state.workMode.mode = mode
+    store.state.workMode.templateId = templateId
   },
 
   /** 更新组件 设置其铺满屏幕 */
@@ -210,9 +212,14 @@ const actions = {
     store.state.posterTemplateInfo.page = JSON.stringify(store.state.dPage)
     store.state.posterTemplateInfo.layouts = JSON.stringify(widgets)
   },
-  /** 备份海报模版数据信息 **/
+  /** 备份海报模版数据信息为副本 **/
   backupPosterTemplateInfo (store, data) {
-    store.state.posterTemplateInfo = data
+    // 如果是edit模式, 使用原有海报id覆盖新的
+    let workMode = store.state.workMode
+    store.state.posterTemplateInfo = JSON.parse(JSON.stringify(data))
+    if (workMode.mode === 'edit') {
+      store.state.posterTemplateInfo.templateId = workMode.templateId
+    }
   },
   /** 加载海报模版 */
   loadPosterTemplate (store, data) {
@@ -449,7 +456,17 @@ const actions = {
           }
           break
       }
-      widget[key] = value
+      // 对 name.son.name 类似属性，做遍历后修改
+      if (key.indexOf('.') !== -1) {
+        let c = widget
+        let ay = key.split('.')
+        for (let idx = 0; idx < ay.length - 1; idx++) {
+          c = c[ay[idx]]
+        }
+        c[ay[ay.length - 1]] = value
+      } else {
+        widget[key] = value
+      }
       store.dispatch('pushHistory')
       store.dispatch('reChangeCanvas')
     }

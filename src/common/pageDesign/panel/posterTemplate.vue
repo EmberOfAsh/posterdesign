@@ -51,7 +51,9 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'posterTemplateInfo'
+      'posterTemplateInfo',
+      'dWidgets',
+      'workMode'
     ]),
   },
   watch: {
@@ -103,21 +105,58 @@ export default {
       this.loadTemplate();
     },
     selectTemplate(item) {
-      if(this.posterTemplateInfo.layouts){
+      let a = JSON.stringify(this.posterTemplateInfo.layouts || [] )
+      let b = JSON.stringify(this.dWidgets)
+      console.debug(a)
+      console.debug(b)
+      //对比数据， 布局信息已被修改
+      if(a != b) {
         this.$confirm('已存在正在编辑的海报?如何操作', '提示', {
           confirmButtonText: '覆盖当前',
           cancelButtonText: '新页面打开',
-          type: 'warning'
+          type: 'info '
         }).then(() => {
-          //let url = '/edit/'+item.value.templateId
-          //window.open(url,'_self')
-          this.$router.push({path:'/from/'+item.value.templateId});
+          //工作模式为 从模板新建
+          if(this.workMode.mode === 'newFromTemplate'){
+            this.$router.push({path:'/from/'+item.value.templateId});
+          }else if(this.workMode.mode === 'edit'){
+            // 编辑模式， 使用此模板内容覆盖原来的
+            if(this.posterTemplateInfo.layouts && this.posterTemplateInfo.layouts.length > 0){
+              this.$confirm('是否使用此模板覆盖?', '警告! 危险操作!', {
+                confirmButtonText: '覆盖当前',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(()=>{
+                PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+              })
+            }else{
+              PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+            }
+          }
         }).catch(()=>{
-          let url = '/edit/'+item.value.templateId
+          let url = '/from/'+item.value.templateId
           window.open(url)
         })
       }else{
-        PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+        //工作模式为 从模板新建
+        if(this.workMode.mode === 'newFromTemplate'){
+          this.$router.push({path:'/from/'+item.value.templateId});
+        }else if(this.workMode.mode === 'edit'){
+          // 编辑模式， 使用此模板内容覆盖原来的
+          if(this.posterTemplateInfo.layouts && this.posterTemplateInfo.layouts.length > 0){
+            this.$confirm('是否使用此模板覆盖?', '警告! 危险操作!', {
+              confirmButtonText: '覆盖当前',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(()=>{
+              PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+            })
+          }else{
+            PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+          }
+        }else{
+            PostInfoService.loadPosterTemplate(this.$http,item.value.templateId,  this.loadPosterTemplate);
+        }
        }
     }
   }

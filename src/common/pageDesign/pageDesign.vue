@@ -21,9 +21,11 @@
           :params="layer"
           :parent="dPage"
           :data-type="layer.type"
-          :data-uuid="layer.uuid">
+          :data-uuid="layer.uuid"
+          v-if="layer.display"
+          >
           <component
-            v-if="layer.isContainer"
+            v-if="layer.isContainer && layer.display"
             :is="widget.type"
             class="layer"
             :class="{
@@ -37,7 +39,8 @@
             :params="widget"
             :parent="layer"
             :data-type="widget.type"
-            :data-uuid="widget.uuid" />
+            :data-uuid="widget.uuid"
+             />
         </component>
 
         <ref-line v-if="dSelectWidgets.length === 0" />

@@ -20,8 +20,13 @@
           @mouseover="hoverLayer('-1')" 
           @mouseout="hoverLayer('-1')"
           >
+          <!--
+          <span class="widget-type" @click="widgetDisplayClick(widget,'widget')">
+            <span class="widget-dis" :class="displayAll==false?'widget-invisible':' widget-visible'"></span>
+          </span>
+          -->
           <span class="widget-type"></span>
-          <span class="widget-name">{{ dPage.name }}</span>
+          <span class="widget-name" @click="widgetDisplayClick(widget,'widget')">{{ dPage.name }}</span>
           <div 
             class="widget-out"
             :data-type="dPage.type"
@@ -47,6 +52,9 @@
           draggable="true"
           @dragstart="dragStart($event, index,widget.uuid)" @dragover="allowDrop" @drop="drop($event, index,widget.uuid)"
           >
+          <span class="widget-type" @click="widgetDisplayClick(widget,'widget')">
+            <span class="widget-dis" :class="widget.display==false?'widget-invisible':' widget-visible'"></span>
+          </span>
           <span class="widget-type"><span class="type-dis" :class="getTypeClass(widget)"></span></span>
           <span class="widget-name">{{ widget.name }}</span>
           <span>
@@ -194,7 +202,8 @@ export default {
         { name: "slow", label: "慢" },
         { name: "normal", label: "中" },
         { name: "fast", label: "快" }
-      ]
+      ],
+      displayAll:true,
     };
   },
   computed: {
@@ -329,6 +338,23 @@ export default {
         })
       }
       return ret
+    },
+    widgetDisplayClick(widget,type){
+      event.stopPropagation()
+      if(type == 'widget'){
+         this.finish('display',!widget.display,widget)
+      }else if(type == 'all'){
+        this.displayAll = !this.displayAll
+        this.dWidgets.forEach(el => (this.finish('display',this.displayAll,el)))
+      }
+    },
+    finish(key, value, widget) {
+      this.updateWidgetData({
+        uuid: widget.uuid,
+        key: key,
+        value: value,
+        pushHistory: true
+      });
     }
   }
 };
@@ -452,6 +478,18 @@ export default {
       }
       .w-svg {
         background-image: url('../../../assets/icon/svg_icon.svg');
+      }
+
+      .widget-dis {
+        width: 20px;
+        height: 20px;
+        background-size: 20px 20px;
+      }
+      .widget-visible {
+        background-image: url('../../../assets/icon/eye-visiable.png');
+      }
+      .widget-invisible {
+        background-image: url('../../../assets/icon/eye-invisible.png');
       }
     }
   }

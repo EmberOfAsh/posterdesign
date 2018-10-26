@@ -129,7 +129,8 @@ export default {
   },
   created () {
     let type = this.$route.name
-    this.updateWorkMode(type)
+    let templateId = this.$route.params.tid
+    this.updateWorkMode({mode:type,templateId:templateId})
     console.debug('工作模式: ',type)
   },
   mounted () {

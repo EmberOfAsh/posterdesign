@@ -5,15 +5,18 @@ let service = {
     let url = '/poster/posterinfo/' + id
     $http.get(url).then(req => {
       let data = req.data.data
-      let layouts = JSON.parse(data.layouts)
+      let layouts = JSON.parse(data.layouts || '[]')
       data.layouts = layouts
       layouts.forEach(element => {
         element.imgUrl = serverInfo.getViewUrl(element.imgUrl)
-        if (!element.zIndex)element.zIndex = 0
+        element.zIndex = null
+        // 修改: 设置全部zIndex为默认值
+        // if (!element.zIndex)element.zIndex = 0
         if (!element.rotate)element.rotate = 0
         if (!element.fontFamily)element.fontFamily = ''
         if (!element.animates)element.animates = []
-        if (!element.shadow)element.shadow = { startColor: 'rgba(255, 255, 255, 1)', endColor: 'rgba(255, 255, 255, 1)', filter: 0 }
+        if (!element.shadow)element.shadow = null
+        if (element.display !== false)element.display = true
       })
       callback(data)
     })

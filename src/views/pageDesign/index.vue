@@ -23,20 +23,19 @@
             
           </el-button-group>
           -->
-          <div class="top-icon" @click="updatePageSizeDialog({display:true})">
-            <i class="iconfont icon-screen-size"></i>
-            尺寸修改
-          </div>
           <div class="top-icon" @click="newPoster">
             <i class="iconfont icon-delete"></i>
             清空内容
           </div>
-          <!--
-          <div class="top-icon" @click="save">
-            <i class="iconfont icon-publish"></i>
-            发布
+          <div class="top-icon" @click="updatePageSizeDialog({display:true})">
+            <i class="iconfont icon-screen-size"></i>
+            尺寸修改
           </div>
-          -->
+          <div class="top-icon" @click="baseInfoInput">
+            <i class="iconfont icon-publish"></i>
+            信息修改
+          </div>
+          
           <div class="top-icon" @click="beginSavePoster">
             <i class="iconfont icon-save"></i>
             保存模板
@@ -205,7 +204,7 @@
           <div id="cover-wrap">
             <canvas id="cover"></canvas>
           </div>
-          <div class="publish-btn" @click="savePosterAs">
+          <div class="publish-btn" @click="doSavePoster">
             <span v-show="!publishing">保存模板</span>
             <i class="el-icon-loading" v-show="publishing"></i>
           </div>
@@ -422,7 +421,8 @@ export default {
     ]),
     setWorkMode(){
       let type = this.$route.name
-      this.updateWorkMode(type)
+      let templateId = this.$route.params.tid
+      this.updateWorkMode({mode:type,templateId:templateId})
       console.debug('工作模式: ',type)
     },
     loadTemplate() {
@@ -728,7 +728,7 @@ export default {
         console.debug('已有模板:',templateId,'  workmode:',this.workMode.mode)
         if(this.workMode.mode === 'edit'){
           this.savePoster()
-        }else if(this.workMode.mode === 'newFromTemplate'){
+        }else if(this.workMode.mode === 'newFromTemplate' || this.workMode.mode === 'new'){
           console.debug('新创建模板')
           this.baseInfoInput()
         }
@@ -780,7 +780,8 @@ export default {
                 var height = image.height;
                 var canvas = document.getElementById("cover");
                 var context = canvas.getContext('2d');
-                let z = Math.max(width / 400 , height / 400)
+                let maxV = Math.min(window.screen.availWidth/2,window.screen.availHeight * 0.6 )
+                let z = Math.max(width / maxV , height / maxV)
                 let nw = width / z
                 let nh = height / z
                 canvas.width = nw
@@ -802,6 +803,16 @@ export default {
         })
       }, 500)
     },
+    /* 预览过后保存 */
+    doSavePoster(){
+      //编辑工作模式 更新保存
+      if(this.workMode.mode === 'edit'){
+          this.savePoster()
+      }else{
+        //其他工作模式 另存为
+        this.savePosterAs()
+      }
+    },
     /**更新海报 **/
     savePoster() {
       this.updatePosterTemplateInfo()
@@ -817,7 +828,7 @@ export default {
         let stid = data.templateId
         this.$router.push({path:'/edit/'+stid});
         this.posterTemplateInfo.templateId = stid
-        this.updateWorkMode('edit')
+        this.updateWorkMode({mode:'edit',templateId:stid})
         console.debug('新增海报保存成功, id: ',stid,' 更改工作模式为edit')
       })
     },
@@ -1016,7 +1027,7 @@ export default {
   padding: 50px
   .fill-info-content
     border-radius: 10px
-    width: 600px
+    width: 50%
     min-height: 600px
     max-height: 861px
     margin: 0 auto
@@ -1029,14 +1040,14 @@ export default {
       flex: 1
       #cover-wrap
         margin: 20px auto
-        width: 400px
-        height: 400px
+        //width: 400px
+        //height: 400px
         display: flex
         justify-content: center
         align-items: center
         #cover
-          max-width: 400px
-          max-height: 400px
+          //max-width: 400px
+          //max-height: 400px
           box-shadow: 1px 1px 10px 3px rgba(0, 0, 0, .1)
       .publish-btn
         margin: 20px auto

@@ -2,81 +2,98 @@
   <div id="size-control" role="sizeControl"  :class="activeType" v-if="dActiveElement.record && dActiveElement.uuid !== '-1'" 
   :style="{
       'transform':'rotate('+dActiveElement.rotate+'deg)',
-      left: left - 10 + 'px',
-      top: top - 10+ 'px',
-      width:width + 20 + 'px',
-      height:height + 20 + 'px'
+      //left: left - 10 + 'px',
+      //top: top - 10+ 'px',
+      //width:width + 20 + 'px',
+      //height:height + 20 + 'px',
+      //'z-index':0
     }">
     <!-- 上左 -->
     <div class="square" role="sizeControl" v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'left-top')"
       :style="{
+        left: left + 'px',
+        top: top + 'px',
         cursor: 'nw-resize',
-        top:0,
-        left:0
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!-- 上中 -->
     <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'vertical' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'top')"
       :style="{
+        left: left + width / 2 + 'px',
+        top: top + 'px',
         cursor: 'n-resize',
-        top:0,
-        left:'50%'
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!-- 上右 -->
     <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'right-top')"
       :style="{
+        left: left + width + 'px',
+        top: top + 'px',
         cursor: 'ne-resize',
-        top:0,
-        left:'100%'
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!-- 中左 -->
     <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'horizontal' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'left')"
       :style="{
+        left: left + 'px',
+        top: top + height / 2 + 'px',
         cursor: 'w-resize',
-        top:'50%',
-        left:0
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!-- 中右 -->
     <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'horizontal' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'right')"
       :style="{
+        left: left + width + 'px',
+        top: top + height / 2 + 'px',
         cursor: 'e-resize',
-        top:'50%',
-        left:'100%'
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!-- 下左 -->
     <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'left-bottom')"
       :style="{
+        left: left + 'px',
+        top: top + height + 'px',
         cursor: 'sw-resize',
-        top:'100%',
-        left:0
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!-- 下中 -->
     <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'vertical' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'bottom')"
       :style="{
+        left: left + width / 2 + 'px',
+        top: top + height + 'px',
         cursor: 's-resize',
-        top:'100%',
-        left:'50%'
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!-- 下右 -->
     <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'right-bottom')"
       :style="{
+        left: left + width + 'px',
+        top: top + height + 'px',
         cursor: 'se-resize',
-        top:'100%',
-        left:'100%'
+        width: squareSize,
+        height: squareSize,
       }">
     </div>
     <!--旋转控制-->
@@ -112,7 +129,8 @@ export default {
   computed: {
     ...mapGetters([
       'dActiveElement',
-      'dWidgets'
+      'dWidgets',
+      'dPage'
     ]),
     left () {
       return parseInt(this.dActiveElement.left)
@@ -134,14 +152,24 @@ export default {
     activeType(){
       let ele = this.dActiveElement;
       return ele.type
+    },
+    /** 调整按钮尺寸 */
+    squareSize(){
+      let ps = Math.min(this.dPage.width,this.dPage.height)
+      let ws = Math.min(this.width,this.height)
+      let pss = ps/50
+      let wss = ws/10
+      console.debug('计算调整尺寸按钮尺寸:  画布尺寸:',ps,'->',pss,' 组件尺寸',ws,'->',wss)
+      return pss
     }
   },
   watch: {
     dActiveElement:function(val, old){
 
       console.debug('activeElement change:',val,old)
-      if(val.uuid != -1) val.zIndex = 999 //调高当前组件的zIndex展示值
-      if(old.uuid != -1) old.zIndex = 0   //恢复前一个组件的zIndex值
+      // 取消选中图层前排显示
+      //if(val.uuid != -1) val.zIndex = 1 //调高当前组件的zIndex展示值
+      //if(old.uuid != -1) old.zIndex = 0   //恢复前一个组件的zIndex值
     }
   },
   methods: {
