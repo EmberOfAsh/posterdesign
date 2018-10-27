@@ -9,7 +9,7 @@
       //'z-index':0
     }">
     <!-- 上左 -->
-    <div class="square" role="sizeControl" v-if="dActiveElement.record.dir === 'all'"
+    <div class="square" position="top-left" role="sizeControl" v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'left-top')"
       :style="{
         left: left + 'px',
@@ -20,7 +20,7 @@
       }">
     </div>
     <!-- 上中 -->
-    <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'vertical' || dActiveElement.record.dir === 'all'"
+    <div class="square" position="top-middle" role="sizeControl"  v-if="dActiveElement.record.dir === 'vertical' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'top')"
       :style="{
         left: left + width / 2 + 'px',
@@ -31,7 +31,7 @@
       }">
     </div>
     <!-- 上右 -->
-    <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
+    <div class="square" position="top-right" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'right-top')"
       :style="{
         left: left + width + 'px',
@@ -42,29 +42,29 @@
       }">
     </div>
     <!-- 中左 -->
-    <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'horizontal' || dActiveElement.record.dir === 'all'"
+    <div class="square" position="middle-left" role="sizeControl"  v-if="dActiveElement.record.dir === 'horizontal' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'left')"
       :style="{
         left: left + 'px',
-        top: top + height / 2 + 'px',
+        top: (top + height / 2) + 'px',
         cursor: 'w-resize',
         width: squareSize,
         height: squareSize,
       }">
     </div>
     <!-- 中右 -->
-    <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'horizontal' || dActiveElement.record.dir === 'all'"
+    <div class="square" position="middle-right" role="sizeControl"  v-if="dActiveElement.record.dir === 'horizontal' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'right')"
       :style="{
         left: left + width + 'px',
-        top: top + height / 2 + 'px',
+        top: (top + height / 2) + 'px',
         cursor: 'e-resize',
         width: squareSize,
         height: squareSize,
       }">
     </div>
     <!-- 下左 -->
-    <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
+    <div class="square" position="bottom-left" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'left-bottom')"
       :style="{
         left: left + 'px',
@@ -75,7 +75,7 @@
       }">
     </div>
     <!-- 下中 -->
-    <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'vertical' || dActiveElement.record.dir === 'all'"
+    <div class="square" position="bottom-middle" role="sizeControl"  v-if="dActiveElement.record.dir === 'vertical' || dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'bottom')"
       :style="{
         left: left + width / 2 + 'px',
@@ -86,7 +86,7 @@
       }">
     </div>
     <!-- 下右 -->
-    <div class="square" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
+    <div class="square" position="bottom-right" role="sizeControl"  v-if="dActiveElement.record.dir === 'all'"
 	  	@mousedown="handlemousedown($event, 'right-bottom')"
       :style="{
         left: left + width + 'px',

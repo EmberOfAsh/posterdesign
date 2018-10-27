@@ -385,7 +385,7 @@ export default {
         console.debug('提示 有未保存的内容')
         return '有未保存的内容'
       }
-      return false
+      return null
     }
   },
   beforeDestroy() {

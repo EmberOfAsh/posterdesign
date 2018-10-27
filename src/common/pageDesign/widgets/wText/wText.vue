@@ -102,11 +102,14 @@ export default {
     ...mapActions(["updateWidgetData", "updateEditeTextDialog"]),
     updateRecord() {
       if (this.dActiveElement.uuid === this.params.uuid) {
-        let record = this.dActiveElement.record;
+        let widget = this.dActiveElement
+        let record = widget.record;
         record.width = this.$refs.widget.offsetWidth;
         record.height = this.$refs.widget.offsetHeight;
         record.minWidth = this.params.fontSize;
         record.minHeight = this.params.fontSize * this.params.lineHeight;
+        widget.width = record.width
+        widget.height = record.height
       }
     },
     updateText(e) {},
