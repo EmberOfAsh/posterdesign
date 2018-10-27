@@ -475,6 +475,12 @@ const actions = {
     if (!setting.uuid || setting.uuid === -1) setting.uuid = generate('1234567890abcdef', 12)
     // 额外属性补足
     if (setting.display !== false) setting.display = true
+    if (setting.shadow) {
+      if(!setting.shadow.clipPath) setting.shadow.clipPath = null
+      if(!setting.shadow.filter) setting.shadow.filter = 0
+      if(!setting.shadow.startColor) setting.shadow.startColor = null
+      if(!setting.shadow.endColor) setting.shadow.endColor = null
+    }
 
     store.state.dWidgets.push(setting)
     let len = store.state.dWidgets.length

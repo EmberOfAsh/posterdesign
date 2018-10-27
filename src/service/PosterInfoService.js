@@ -15,7 +15,12 @@ let service = {
         if (!element.rotate)element.rotate = 0
         if (!element.fontFamily)element.fontFamily = ''
         if (!element.animates)element.animates = []
-        if (!element.shadow)element.shadow = null
+        if (!element.shadow)element.shadow = {
+          startColor:null,
+          endColor:null,
+          filter:0,
+          clipPath:null
+        }
         if (element.display !== false)element.display = true
       })
       callback(data)

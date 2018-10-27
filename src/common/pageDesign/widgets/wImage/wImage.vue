@@ -20,7 +20,8 @@
       'transform':'rotate('+params.rotate+'deg)',
       'z-index':params.zIndex,
       '-webkit-mask-image': maskImage,
-      'filter':'blur('+params.shadow.filter+'px)'
+      'filter':'blur('+params.shadow.filter+'px)',
+      'clip-path':clipPath,
     }"/>
 </transition>
 </template>
@@ -68,7 +69,10 @@ export default {
       dir: 'all'
     },
     shadow: {
-      filter:0
+      startColor:null,
+      endColor:null,
+      filter:0,
+      clipPath:null,//过滤路径
     }
   },
   props: ['params', 'parent'],
@@ -100,6 +104,11 @@ export default {
     maskEndColor(){
       if(this.params.shadow && this.params.shadow.endColor)
         return this.params.shadow.endColor
+      return null
+    },
+    clipPath(){
+      if(this.params.shadow && this.params.shadow.clipPath)
+        return this.params.shadow.clipPath
       return null
     }
   },
