@@ -476,10 +476,10 @@ const actions = {
     // 额外属性补足
     if (setting.display !== false) setting.display = true
     if (setting.shadow) {
-      if(!setting.shadow.clipPath) setting.shadow.clipPath = null
-      if(!setting.shadow.filter) setting.shadow.filter = 0
-      if(!setting.shadow.startColor) setting.shadow.startColor = null
-      if(!setting.shadow.endColor) setting.shadow.endColor = null
+      if (!setting.shadow.clipPath) setting.shadow.clipPath = null
+      if (!setting.shadow.filter) setting.shadow.filter = 0
+      if (!setting.shadow.startColor) setting.shadow.startColor = null
+      if (!setting.shadow.endColor) setting.shadow.endColor = null
     }
 
     store.state.dWidgets.push(setting)
