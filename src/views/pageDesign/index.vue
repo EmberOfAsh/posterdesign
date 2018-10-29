@@ -379,8 +379,8 @@ export default {
     //页面刷新或关闭提示
     window.onbeforeunload = function (event) {
       //检测是否有未保存属性
-      let a = JSON.stringify(ins.posterTemplateInfo.layouts || [] )
-      let b = JSON.stringify(ins.dWidgets)
+      let a = ins.posterTemplateInfo.layouts || '[]'
+      let b = JSON.stringify(PosterInfoService.replaceMediaUrl(ins.dWidgets))
       if(a != b) {
         console.debug('提示 有未保存的内容')
         return '有未保存的内容'

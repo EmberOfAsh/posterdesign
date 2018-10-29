@@ -62,6 +62,22 @@ let service = {
       }
       if (callback) callback(response.data)
     })
+  },
+  /**
+   * 替换widgets中媒体服务器地址
+   * @param {} widgets 组件
+   */
+  replaceMediaUrl (widgets) {
+    let wsc = JSON.parse(JSON.stringify(widgets))
+    // 替换图片相对路径
+    wsc.forEach(ele => {
+      if (ele.type === 'w-image' || ele.type === 'w-svg' || ele.type === 'w-video') {
+        console.debug('replace: ', serverInfo.uploadServer)
+        ele.imgUrl = ele.imgUrl.split(serverInfo.uploadServer).join('')
+        console.log(ele.imgUrl)
+      }
+    })
+    return wsc
   }
 
 }
