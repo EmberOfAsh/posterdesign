@@ -7,7 +7,9 @@
     @dblclick="(e) => dblclickText(e)"
     :class="[{'edit-text': editable}, params.uuid]"
     ref="widget"
+    :color="params.textColor"
     :style="{
+      color: hex2rgb(params.textColor),
       position: 'absolute',
       left: (params.left - parent.left) + 'px',
       top: (params.top - parent.top) + 'px',
@@ -17,7 +19,6 @@
       lineHeight: params.fontSize * params.lineHeight + 'px',
       letterSpacing: params.fontSize * params.letterSpacing / 100 + 'px',
       fontSize: params.fontSize + 'px',
-      color: params.textColor,
       textAlign: params.textAlign,
       fontWeight: params.fontWeight,
       fontStyle: params.fontStyle,
@@ -37,6 +38,7 @@
 const NAME = "w-text";
 
 import { mapGetters, mapActions } from "vuex";
+import domUtil from '../../../../util/domUtil.js'
 
 export default {
   name: NAME,
@@ -116,6 +118,9 @@ export default {
     dblclickText(e) {
       console.log("更改文本文字");
       this.updateEditeTextDialog({ display: true });
+    },
+    hex2rgb(c){
+      return domUtil.hex2rgb(c)
     }
   }
 };
