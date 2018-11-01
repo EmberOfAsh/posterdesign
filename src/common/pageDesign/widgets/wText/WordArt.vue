@@ -35,6 +35,7 @@ const NAME = "word-art";
 
 import { mapGetters, mapActions } from "vuex";
 import serverInfo from '../../../../config/serverInfo.js'
+import domUtil from '../../../../util/domUtil.js'
 export default {
   name: NAME,
   setting: {
@@ -99,7 +100,7 @@ export default {
       ay.push('text='+encodeURI(this.params.text))
       ay.push('font='+encodeURI(this.params.fontFamily))
       ay.push('size='+encodeURI(this.params.fontSize)+'px')
-      ay.push('color='+encodeURI(this.params.textColor.replace('#','')))
+      ay.push('color='+encodeURI(domUtil.rgb2hex(this.params.textColor).replace('#','')))
       //ay.push('fontWeight='+this.params.fontWeight)
       //ay.push('fontStyle='+this.params.fontStyle)
       //ay.push('textDecoration='+this.params.textDecoration)
