@@ -8,6 +8,7 @@
     :class="[{'edit-text': editable}, params.uuid]"
     ref="widget"
     :color="params.textColor"
+    :rgb-color="hex2rgb(params.textColor)"
     :style="{
       color: hex2rgb(params.textColor),
       position: 'absolute',
