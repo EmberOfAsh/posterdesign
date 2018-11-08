@@ -22,7 +22,9 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    // 打包多个入口文件
+    app: './src/main.js',
+    ambianceAnimation: './src/animate/AmbianceAnimateMain.js'
   },
   output: {
     path: config.build.assetsRoot,

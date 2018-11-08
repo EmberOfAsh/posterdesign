@@ -1,7 +1,9 @@
 <template>
   <div 
-    id="w-snow"
     ref="widget"
+    id="ambiance-animate"
+    comp-name="w-snow"
+    comp-data="{}"
     :style="{
       position: 'absolute',
       left: (params.left - parent.left) + 'px',
