@@ -40,6 +40,14 @@ let service = {
       callback(datas, pager)
     })
   },
+  loadPosterCategory ($http, data, callback) {
+    let url = '/poster/category/search'
+    $http.post(url, data).then(response => {
+      if (response.data.status) {
+        if (callback) callback(response.data)
+      }
+    })
+  },
   /** 保存模版数据  */
   savePosterInfo ($http, data, callback) {
     let url = '/poster/posterinfo'
