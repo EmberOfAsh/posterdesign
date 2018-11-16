@@ -4,8 +4,10 @@ let map = new Map()
 map.set(snow1.name, snow1)
 
 window.onload = function () {
-  if (window.location.protocol === 'file:') {
+  // 如果不是从web加载的页面，执行
+  if (window.from !== 'loadFromUrl') {
     setTimeout(() => {
+      updateBestDisplayZoom()
       startAnimate()
     }, 10)
   }
@@ -21,4 +23,20 @@ function startAnimate () {
       animateInfo.method(node, data)
     }
   })
+}
+/**
+ * 计算最佳缩放
+ */
+function updateBestDisplayZoom () {
+  let dis = document.querySelector('#page-design-canvas')
+  let tw = dis.style.width.replace('px', '') - 0
+  let th = dis.style.height.replace('px', '') - 0
+  let width = window.screen.width
+  let height = window.screen.height
+  let widthZoom = (width) * 100 / tw
+  let heightZoom = (height) * 100 / th
+
+  let bestZoom = Math.min(widthZoom, heightZoom) / 100
+  console.debug('计算最佳缩放', bestZoom)
+  dis.style.transform = `scale(${bestZoom})`
 }

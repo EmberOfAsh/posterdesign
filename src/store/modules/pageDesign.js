@@ -238,6 +238,7 @@ const actions = {
       store.dispatch('updateBestZoom')
     }
     store.dispatch('backupPosterTemplateInfo', data)
+    window.from = 'loadFromUrl'
   },
   /** 取消选中组件 */
   unselectWidgets (store) {
