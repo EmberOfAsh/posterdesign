@@ -354,8 +354,9 @@ const actions = {
   },
   /** 计算最佳展示缩放比例 */
   updateBestDisplayZoom (store) {
-    let width = window.screen.width || store.state.dScreen.width
-    let height = window.screen.height || store.state.dScreen.height
+    // 使用可视区域大小 替换 全局大小
+    let width = window.screen.availWidth || store.state.dScreen.width
+    let height = window.screen.availHeight || store.state.dScreen.height
     let widthZoom = (width) * 100 / store.state.dPage.width
     let heightZoom = (height) * 100 / store.state.dPage.height
 
