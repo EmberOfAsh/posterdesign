@@ -3,13 +3,12 @@ let map = new Map()
 
 map.set(snow1.name, snow1)
 
-
 // 如果不是从web加载的页面，执行
 if (window.from !== 'loadFromUrl') {
   setTimeout(() => {
     updateBestDisplayZoom()
     startAnimate()
-  }, 10)
+  }, 800)
 }
 
 function startAnimate () {
@@ -30,8 +29,8 @@ function updateBestDisplayZoom () {
   let dis = document.querySelector('#page-design-canvas')
   let tw = dis.style.width.replace('px', '') - 0
   let th = dis.style.height.replace('px', '') - 0
-  let width = window.screen.availWidth
-  let height = window.screen.availHeight
+  let width = window.screen.width
+  let height = window.screen.height
   let widthZoom = (width) * 100 / tw
   let heightZoom = (height) * 100 / th
 
