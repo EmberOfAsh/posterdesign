@@ -90,7 +90,8 @@ export default {
       controls:true,
       muted:true,
       loop:true,
-    }
+    },
+    display:true,
   },
   props: ["params", "parent"],
   data() {

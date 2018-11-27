@@ -4,12 +4,14 @@ let map = new Map()
 map.set(snow1.name, snow1)
 
 // 如果不是从web加载的页面，执行
-if (window.from !== 'loadFromUrl') {
-  setTimeout(() => {
+setTimeout(() => {
+  if (window.from !== 'loadFromUrl') {
     updateBestDisplayZoom()
     startAnimate()
-  }, 800)
-}
+  } else {
+    console.info('url模式,外置脚本不工作')
+  }
+}, 800)
 
 function startAnimate () {
   document.querySelectorAll('#ambiance-animate').forEach(node => {
@@ -35,6 +37,6 @@ function updateBestDisplayZoom () {
   let heightZoom = (height) * 100 / th
 
   let bestZoom = Math.min(widthZoom, heightZoom) / 100
-  console.debug('计算最佳缩放', bestZoom)
+  console.debug('外置脚本计算最佳缩放', bestZoom)
   dis.style.transform = `scale(${bestZoom})`
 }

@@ -58,7 +58,8 @@ export default {
       minWidth: 1,
       minHeight: 1,
       dir: 'all'
-    }
+    },
+    display:true,
   },
   props: ['params', 'parent'],
   data () {

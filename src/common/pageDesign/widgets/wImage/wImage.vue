@@ -73,7 +73,8 @@ export default {
       endColor:null,
       filter:0,
       clipPath:null,//过滤路径
-    }
+    },
+    display:true,
   },
   props: ['params', 'parent'],
   data () {

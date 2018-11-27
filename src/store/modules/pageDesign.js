@@ -368,6 +368,7 @@ const actions = {
     let heightZoom = (store.state.dScreen.height - 122) * 100 / store.state.dPage.height
 
     let bestZoom = Math.min(widthZoom, heightZoom)
+    console.debug('计算最佳缩放比例：', bestZoom)
     store.state.dZoom = bestZoom
   },
   updateZoom (store, zoom) {
@@ -630,6 +631,7 @@ const actions = {
     console.debug('select uuid: ', uuid)
     let alt = store.state.dAltDown
     let selectWidgets = store.state.dSelectWidgets
+    let widgets = store.state.dWidgets
     let widget = store.state.dWidgets.find(item => item.uuid === uuid)
     if (alt) {
       if (uuid !== '-1' && widget.parent === '-1' && !widget.isContainer) {
@@ -655,6 +657,10 @@ const actions = {
           store.state.dSelectWidgets = []
         }
       }
+      // 依据原有顺序对选择组件进行排序
+      selectWidgets.sort((a, b) => {
+        return widgets.indexOf(a) - widgets.indexOf(b)
+      })
       return
     }
     store.state.dSelectWidgets = []

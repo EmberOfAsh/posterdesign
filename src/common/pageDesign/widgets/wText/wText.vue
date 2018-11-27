@@ -84,7 +84,8 @@ export default {
       minWidth: 0,
       minHeight: 0,
       dir: "horizontal"
-    }
+    },
+    display:true,
   },
   props: ["params", "parent"],
   data() {

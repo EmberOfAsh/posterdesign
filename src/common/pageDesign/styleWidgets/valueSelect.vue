@@ -13,7 +13,9 @@
         :value="showValue"
         @input="innerValue = $event.target.value.replace(RegExp(suffix), '')"
         @focus="inputBorder = true"
-        @blur="inputBorder = false" />
+        @blur="inputBorder = false"
+        @change="inputChange"
+         />
       <div class="op-btn">
         <div class="down" @click="inputBorder = !inputBorder"></div>
       </div>
@@ -101,6 +103,11 @@ export default {
         this.innerValue = item
         this.$emit('finish', item)
       }
+    },
+    inputChange(event){
+      let value = event.target.value.replace(RegExp(this.suffix), '')
+      console.debug(value)
+      this.$emit('finish', value)
     }
   }
 }

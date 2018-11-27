@@ -22,10 +22,10 @@
           :parent="dPage"
           :data-type="layer.type"
           :data-uuid="layer.uuid"
-          v-if="layer.display"
+          v-if="layer.display !== false"
           >
           <component
-            v-if="layer.isContainer && layer.display"
+            v-if="layer.isContainer && layer.display !== false"
             :is="widget.type"
             class="layer"
             :class="{
