@@ -1047,14 +1047,17 @@ export default {
   .fill-info-content
     border-radius: 10px
     width: 50%
+    height:100%
     min-height: 600px
     max-height: 861px
     margin: 0 auto
+    overflow :auto
     padding: 20px
     background-color: #fff
     display: flex
     flex-direction: column
     .fill-info-step
+      padding-top: 9%;
       width: 100%
       flex: 1
       #cover-wrap

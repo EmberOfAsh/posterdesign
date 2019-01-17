@@ -1,12 +1,15 @@
 const isProduction = process.env.NODE_ENV === 'production'
-let MainServer = 'http://192.168.1.8:8080'
-let testMainServer = 'http://192.168.1.8:8080'
-let uploadServer = 'http://192.168.1.8:3000'
+let MainServer = 'http://192.168.0.8:8080'
+let testMainServer = 'http://192.168.0.8:8080'
+let uploadServer = 'http://192.168.0.8:3000'
 // testMainServer = 'http://localhost:8080'
 
 // 正式发布配置
 // MainServer = 'http://112.17.115.76:12345'
 // uploadServer = 'http://112.17.115.76:3000'
+
+// MainServer = 'http://10.12.18.207:8080'
+// uploadServer = 'http://10.12.18.207:3000'
 
 /* 服务器相关信息 */
 const serverInfo = {
