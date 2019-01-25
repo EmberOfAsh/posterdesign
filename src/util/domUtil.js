@@ -45,9 +45,9 @@ function hex2rgb (hex) {
     // 颜色位数为6位
     let ay = tc.split('')
     for (let idx = 0; idx < ay.length; idx += 2) {
-      rgb[idx] = ay[idx] + ay[idx]
+      rgb.push(ay[idx] + ay[idx])
     }
-    a = 1
+    a = 255
   } else if (length === 8) {
     // 颜色位数为8位
     let ay = tc.split('')
