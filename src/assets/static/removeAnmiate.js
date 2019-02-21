@@ -16,3 +16,7 @@ function removeAnmiate () {
     el.setAttribute('class', nc)
   })
 }
+
+function getHtmlContent (str) {
+  return window.external.getHtmlContent(str)
+}
