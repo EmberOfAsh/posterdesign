@@ -11,6 +11,9 @@ let uploadServer = 'http://192.168.0.8:3000'
 // MainServer = 'http://10.12.18.207:8080'
 // uploadServer = 'http://10.12.18.207:3000'
 
+// testMainServer = 'http://192.168.0.8:8181'
+// MainServer = 'http://192.168.0.8:8181'
+uploadServer = 'http://192.168.0.8:3000'
 
 /* 服务器相关信息 */
 const serverInfo = {
